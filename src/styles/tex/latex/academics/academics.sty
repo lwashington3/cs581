@@ -1,0 +1,28 @@
+%! Package = academics
+%! Author = Len Washington III
+%! Date = 12/26/23
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{academics}[2023/12/26 A styling package for the class: ]
+
+\RequirePackage{kvoptions}
+
+\SetupKeyvalOptions{
+	family=aca,
+	prefix=aca@
+}
+
+\DeclareStringOption{title}
+\DeclareStringOption[Len Washington III]{author}
+\DeclareStringOption[\today]{date}
+\DeclareStringOption[]{subject}
+\DeclareStringOption[]{subjectCode}
+
+\ProcessKeyvalOptions*
+
+\RequirePackage[author=\aca@author,
+	title=\aca@title,
+	date=\aca@date,
+	subject=\aca@subject,
+	code=\aca@subjectCode
+]{iitacademics}
