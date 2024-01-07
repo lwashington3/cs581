@@ -1,0 +1,3 @@
+[submodule "src/styles/tex/latex/iitacademics"]
+	path = src/styles/tex/latex/iitacademics
+	url = https://github.com/lwashington3/iitacademics.sty.git

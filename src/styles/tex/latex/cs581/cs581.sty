@@ -1,0 +1,28 @@
+%! Package = cs581
+%! Author = Len Washington III
+%! Date = 12/26/23
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{cs581}[2023/12/26 A styling package for the class: ]
+
+\RequirePackage{kvoptions}
+
+\SetupKeyvalOptions{
+	family=cs,
+	prefix=cs@
+}
+
+\DeclareStringOption{title}
+\DeclareStringOption[Len Washington III]{author}
+\DeclareStringOption[\today]{date}
+\DeclareStringOption[Advanced Artificial Intelligence]{subject}
+\DeclareStringOption[CS 581]{subjectCode}
+
+\ProcessKeyvalOptions*
+
+\RequirePackage[author=\cs@author,
+	title=\cs@title,
+	date=\cs@date,
+	subject=\cs@subject,
+	code=\cs@subjectCode
+]{iitacademics}
