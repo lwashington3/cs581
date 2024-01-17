@@ -14,15 +14,15 @@
 
 \DeclareStringOption{title}
 \DeclareStringOption[Len Washington III]{author}
-\DeclareStringOption[\today]{date}
+\DeclareStringOption[{\today}]{date}
 \DeclareStringOption[Advanced Artificial Intelligence]{subject}
 \DeclareStringOption[CS 581]{subjectCode}
 
 \ProcessKeyvalOptions*
 
 \RequirePackage[author=\cs@author,
-	title=\cs@title,
-	date=\cs@date,
+	title={\cs@title},
+	date={\cs@date},
 	subject=\cs@subject,
 	code=\cs@subjectCode
 ]{iitacademics}

@@ -1,0 +1,124 @@
+%! Author = Len Washington III
+%! Date = 1/10/24
+%! compiler = pdflatex
+
+% Preamble
+\documentclass[title={January 10, 2024 Notes}]{cs581notes}
+
+% Packages
+
+% Document
+\begin{document}
+
+%<*1-10-2024>
+\maketitle
+
+\section{Agent}\label{sec:agent}
+An agent is just something that acts (from the Latin agere, to do).\\
+
+Of course, we would prefer ``acting'' to be:
+\begin{itemize}
+	\item autonomous
+	\item situated in some environment (that could be really complex)
+	\item adaptive
+	\item create and goal-oriented
+\end{itemize}
+
+\section{Rational Agent}\label{sec:rational-agent}
+A rational agent is one that acts to achieve the best outcome, or when there is uncertainty, the best expected outcome%
+\footnote{no worries, we will make it a little less vague soon}.
+
+\section{AI: Constructing Agents}\label{sec:ai:-constructing-agents}
+You can say that: AI is focused on the study and construction of agents that do the right thing.
+
+\section{Percepts and Percept Sequences}\label{sec:percepts-and-percept-sequences}
+Percept -- content/information that agent's sensors are perceiving / capturing currently\\
+
+Percept Sequence -- a complete history of everything that agent has ever perceived
+\begin{itemize}
+	\item any practical issues that you can see here?
+	\item what can a percept sequence be used for?
+\end{itemize}
+
+\section{Agent Function/Program}\label{sec:agent-function/program}
+Specifying an action choice for every possible percept sequence would define an agent
+\begin{itemize}
+	\item Action $<$-$>$ percept sequence mapping IS the agent function.
+	\item Agent function describes agent behavior.
+	\item Agent function is an abstract concept.
+	\item Agent program implements agent function.
+\end{itemize}
+
+\section{Actions Have Consequences}\label{sec:actions-have-consequences}
+An agent can act upon its environment, but how do we know if the end result is ``right''?
+After all, actions have consequences: either good or bad.
+Recall that agent actions change environment state!
+If state changes are desirable, and agent performs well.
+Performance measure evaluates state changes.
+
+\section{Rationality}\label{sec:rationality}
+Rational decisions at the moment depend on:
+\begin{itemize}
+	\item The performance measure that defines success criteria
+	\item The agent's prior knowledge of the environment
+	\item The actions that the agent can perform
+	\item The agent's percept sequence so far
+\end{itemize}
+
+\section{Rational Agent}\label{sec:rational-agent-2}
+For each possible percept sequence, a rational agent should select an action that is expected to maximize
+
+\section{Rationality in Reality}\label{sec:rationality-in-reality}
+\begin{itemize}
+	\item An omniscient agent will ALWAYS know the final outcome of its action.
+	Impossible in reality.
+	That would be perfection.
+	\item Rationality maximizes what is EXPECTED to happen.
+	\item Perfection maximizes what WILL happen.
+	\item Performance can be improved by information gathering and learning.
+\end{itemize}
+
+\section{Designing the Agent for the Task}\label{sec:designing-the-agent-for-the-task}
+\subsection{Analyze the Problem}\label{subsec:analyze-the-problem}
+\subsubsection{Task Environment | \Peas\pEas\peAs\peaS}\label{subsubsec:task-environment-peas}
+In order to start the agent design process, we need to specify/define:
+\begin{itemize}
+	\item The \Peas{}erformance measure
+	\item The \pEas{}nvironment in which the agent will operate
+	\item The \peAs{}ctuators that the agent will use to affect the environment
+	\item The \peaS{}ensors
+\end{itemize}
+
+\subsubsection{Task Environment Properties}\label{subsubssec:task-environment-properties}
+Key dimensions by which task environments can be categorized:
+\begin{itemize}
+	\item Fully vs partially observable (can be unobservable too)
+	\item Single agent vs multi-agent
+	\begin{itemize}
+		\item multi-agent: competitive vs. co-operative
+	\end{itemize}
+	\item Deterministic vs. non-deterministic (stochastic)
+	\item Episodic vs. sequential
+	\begin{itemize}
+		\item Sequential requires planning ahead
+	\end{itemize}
+	\item Static vs. dynamic
+	\item Discrete vs. continuous
+	\item Known vs. unknown (to the agent)
+\end{itemize}
+
+\subsection{Select Agent Architecture}\label{subsec:select-agent-architecture}
+\begin{center}\textbf{Agent = Architecture + Program}\end{center}
+
+\subsubsection{Typical Agent Architectures}
+\begin{itemize}
+	\item Simple reflex agent.
+	\item Model-based reflex agent.
+	\item Goal-based reflex agent.
+	\item Utility-based reflex agent.
+\end{itemize}
+
+\subsection{Select Internal Representations}\label{subsec:select-internal-representations}
+%</1-10-2024>
+
+\end{document}

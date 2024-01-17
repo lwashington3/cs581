@@ -1,0 +1,89 @@
+%! Author = Len Washington III
+%! Date = 1/17/24
+%! compiler = pdflatex
+
+% Preamble
+\documentclass[title={January 17, 2024 Notes}]{cs581notes}
+
+% Packages
+
+% Document
+\begin{document}
+
+%<*1-17-2024>
+\maketitle
+
+\section{Typical Agent Architectures}\label{sec:typical-agent-architectures}
+\begin{itemize}
+	\item Simple reflex agent: uses condition-action rules
+	\item Model-based reflex agent: keeps track of the unobserved parts of the environment by maintaining internal state:
+	\begin{itemize}
+		\item ``how the world works'': state transition model
+		\item how percepts and environment is related: sensor model
+	\end{itemize}
+	\item Goal-based reflex agent: maintains the models of the world and goals to select decisions (that lead to goal)
+	\item Utility-based reflex agent: maintains the model of the world and utility function to select PREFERRED decisions (that lead to the best expected utility: avg (EU * p))
+\end{itemize}
+
+\section{State and Transition Representations}\label{sec:state-and-transition-representations}
+\begin{itemize}
+	\item Atomic: state representation has NO internal structure
+	\item Factored: state representation includes fixed attributes (which can have values)
+	\item Structured: state representation includes objects and their relationships
+\end{itemize}
+
+\section{Problem-Solving / Planning Agent}\label{sec:problem-solving-/-planning-agent}
+\begin{itemize}
+	\item Context / Problem:
+	\begin{itemize}
+		\item correct action is NOT immediately obvious
+		\item a plan (a sequence of actions leading to a goal) may be necessary
+	\end{itemize}
+	\item Solution / Agent:
+	\begin{itemize}
+		\item come up with a computational process that will search for that plan
+	\end{itemize}
+	\item Planning Agent:
+	\begin{itemize}
+		\item uses factored or structured representations of states
+		\item uses searching algorithms
+	\end{itemize}
+\end{itemize}
+
+\section{Defining Search Problem}\label{sec:defining-search-problem}
+\begin{itemize}
+	\item Define a set of possible states: State Space
+	\item Specify Initial State
+	\item Specify Goal State(s) (there can be multiple)
+	\item Define a FINITE set of possible Actions for EACH state in the State Space
+	\item Come up with a TRANSITION model which describes what each action does
+	\item Specify the Action COST Function (a function that gives the cost of applying action $a$ to state $s$)
+\end{itemize}
+
+\section{Measuring Searching Performance}\label{sec:measuring-searching-performance}
+Search algorithms can be evaluated in four ways:
+\begin{itemize}
+	\item Completeness: Is the algorithm guaranteed to find a solution when there is one, and to correctly report failure when there is not?
+	\item Cost optimality: Does it find a solution with the lowest path cost of all solutions?
+	\item Time complexity: How long goes it take to find a solution? (in seconds, actions, states, etc.)
+	\item Space complexity: How much memory is needed to perform the search?
+\end{itemize}
+
+\section{Informed Search and Heuristics}\label{sec:informed-search-and-heuristics}
+Informed search relies on domain-specific knowledge / hints that help locate the goal state.
+
+\begin{equation*}
+\begin{aligned}
+	h(n) &= h(\mbox{State }n)\\
+	h(n) &= n(\mbox{relevant information about State }n)
+\end{aligned}
+\end{equation*}
+\section{Romanian Roadtrip: Heuristics h(n)}\label{sec:romanian-roadtrip:-heuristics-h(n)}
+For this particular problem, the heuristic function $h(n)$ is defined by a straight line (Euclidean) distance between two states (cities). As the crow flies in other words.
+
+\section{A* Algorithm: Evaluations Function}\label{sec:a*-algorithm:-evaluations-function}
+Calculate/obtain: \[ f(n) = g(\mbox{State}_{n}) + h(\mbox{State}_{n}) \] % TODO: Get the rest of this slide
+
+%</1-17-2024>
+
+\end{document}
