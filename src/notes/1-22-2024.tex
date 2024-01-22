@@ -1,0 +1,100 @@
+%! Author = Len Washington III
+%! Date = 1/22/2024
+%! compiler = pdflatex
+
+% Preamble
+\documentclass[title={January 22, 2024 Notes}]{cs581notes}
+\usepackage{animate}
+
+% Document
+\begin{document}
+
+%<*1-22-2024>
+
+\section{A* Evaluation Function}\label{sec:a*-evaluation-function}
+\[ f(n) = g(\mbox{State}_{n}) + h(\mbox{State}_{n}) \]
+where:
+\begin{itemize}
+	\item $g(n)$ -- initial node
+\end{itemize}
+
+\section{Admissible Heuristic: Proof}\label{sec:admissible-heuristic:-proof}
+An admissible heuristics $h()$ is guaranteed to give you the optimal solution.
+Why?
+Proof by contradiction:
+\begin{itemize}
+	\item Say: the algorithm returned a suboptimal path $(C > C*)$
+	\item So: there exists a node $n$ on $C*$ not expanded on $C$:
+\end{itemize}
+
+If so:
+\begin{equation*}
+\begin{aligned}
+	f(n) &> C*&\\
+	f(n) &= g(n) + h(n) & \mbox{(by definition)}\\
+	f(n) &= g*(n) + h(n) & \mbox{(because } n \mbox{ is on } C*)\\
+	f(n) &\leq g*(n) + h*(n) & \mbox{(if } h(n) \mbox{ admissible: } h(n) \leq h*(n)\\
+\end{aligned}
+\end{equation*}
+
+\section{What Made A* Work Well?}\label{sec:what-made-a*-work-well?}
+\begin{itemize}
+	\item Straight-line heuristics is consistent: its estimate is getting better and better as we get closer to the goal
+	\item Every consistent heuristics is admissible heuristics, but not the other way around
+\end{itemize}
+
+But that would mean that: \[ f(n) \leq C* \]
+
+\section{A*: Search Contours}\label{sec:a*:-search-contours}
+How does A* ``direct'' the search progress?
+
+\section{Dominating Heuristics}\label{sec:dominating-heuristics}
+We can have more than one available heuristics.
+For example $h_{1}(n)$ and $h_{2}(n)$.
+$h_{2}(n)$ dominates $h_{1}(n)$ iff\footnote{if and only if} $h_{2}(n) > h_{1}(n)$ for every $n$.
+
+If you have multiple admissible heuristics where none dominates the other:
+\[ \mbox{Let } h(n) = \max\left( h_{1}(n), h_{2}(n), \dots, h_{m}(n) \right) \]
+
+\section{Domination $\rightarrow$ Efficiency: Why?}\label{sec:domination-rightarrow-efficiency:-why?}
+With \[ f(n) < C* \mbox{ and } f(n) = g(\mbox{State}_{n}) + h(\mbox{State}_{n}),\]
+we get
+
+\section{Domination $\rightarrow$ Efficiency: But?}\label{sec:domination-rightarrow-efficiency:-but?}
+If $h_{2}(n)$ dominates $h_{1}(n)$, should you always use $h_{2}(n)$?
+Generally yes, but $h_{2}(n)$ vs $h_{1}(n)$ heuristic \emph{computation time} may be a deciding factor here.
+
+\section{Heuristic and Search Performance}\label{sec:heuristic-and-search-performance}
+\begin{itemize}
+	\item Consider an 8-puzzle game and two admissible heuristics:
+	\begin{itemize}
+		\item $h_{1}(n)$ -- number of misplaced tiles (not counting blank)
+		\item $h_{2}(n)$ -- Manhattan distance
+	\end{itemize}
+\end{itemize}
+
+\section{$h()$ Quality: Effective Branching}\label{sec:$h()$-quality:-effective-branching}
+
+\section{Can We Make A* Even Faster? (Sometimes at a cost!)}\label{sec:can-we-make-a*-even-faster?-(sometimes-at-a-cost!)}
+
+\section{Weighted A* Evaluation Function}\label{sec:weighted-a*-evaluation-function}
+\[ f(n) = g(\mbox{State}_{n}) + W * h(\mbox{State}_{n}) \]
+where:
+\begin{itemize}
+	\item $g(n)$ -- initial node to node $n$ path cost
+	\item $h(n)$ -- estimated cost of the best path that continues from node $n$ to a goal node
+	\item $W > 1$
+\end{itemize}
+
+Here, weight $W$ makes $h(\mbox{State}_{n})$ (perhaps only ``sometimes'') inadmissible.
+It becomes potentially more accurate = less expansions!
+
+\animategraphics[autoplay,loop,width=\textwidth]
+{10}%Frame rate
+{file}%File without extension
+{}
+{}
+
+%</1-22-2024>
+
+\end{document}
