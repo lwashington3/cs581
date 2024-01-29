@@ -1,0 +1,52 @@
+%! Author = Len Washington III
+%! Date = 1/24/2024
+%! compiler = pdflatex
+
+% Preamble
+\documentclass[title={January 24, 2024 Notes}]{cs581notes}
+
+% Document
+\begin{document}
+
+%<*1-24-2024>
+
+\section{Perfect Information}\label{sec:perfect-information}
+
+\section{Two Player Games: Env Assumptions}\label{sec:two-player-games:-env-assumptions}
+
+\section{Defining Zero Sum Game Problem}\label{sec:defining-zero-sum-game-problem}
+\begin{itemize}
+	\item Defining a set of possible states: State Space
+	\item Specify how will you track Whose Move / Turn it is
+	\item Specify Initial State
+	\item Specify Goal State(s) (there can by multiple)
+	\item Define a FINITE set of possible Actions (legal moves) for EACH state in the State Space
+	\item Come up with a Transition Model which describes what each action does
+	\item Come up with a Terminal Test that verifies if the game is over
+	\item Specify the Utility (Payoff/Object) Function: a function that defines the final numerical value to player $p$ when the game ends in the terminal state $s4$
+\end{itemize}
+
+\section{MinMax Algorithm: The Idea}\label{sec:minmax-algorithm:-the-idea}
+I don't know what move my opponent will choose, but I am going to ASSUME that it is going to be the best/optimal option for them.
+
+%\section{Example MinMax with $\alpha-\beta$ Pruning}\label{sec:example-minmax-with-alpha-beta-pruning}
+\begin{description}
+	\item[$\alpha$] the value of the best (highest value)
+	\item[$\beta$]
+\end{description}
+
+\section{Constraint Satisfaction Problem}\label{sec:constraint-satisfaction-problem}
+The goal is to find an assignment (variable = value):
+\[ X_{1} = v_{1}, \dots, X_{n} = v_{n} \]
+\begin{itemize}
+	\item If NO constraints violated: consistent assignment
+	\item If ALL variables have a value: complete assignment
+	\item If SOME variables have NO value: partial assignment
+	\item SOLUTION: consistent and complete assignment
+	\item PARTIAL SOLUTION: consistent and partial assignment
+\end{itemize}
+
+
+%</1-24-2024>
+
+\end{document}

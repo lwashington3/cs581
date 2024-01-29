@@ -85,5 +85,4 @@ def main(date:date):
 
 
 if __name__ == "__main__":
-	# main(date.today())
-	main(date(2024, 1, 18))
+	main(date.today())

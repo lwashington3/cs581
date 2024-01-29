@@ -1,0 +1,222 @@
+%! Author = Len Washington III
+%! Date = 1/29/2024
+%! compiler = pdflatex
+
+% Preamble
+\documentclass[title={January 29, 2024 Notes}]{cs581notes}
+
+% Document
+\begin{document}
+
+%<*1-29-2024>
+
+\chapter{Local Search Algorithms}\label{ch:local-search-algorithms}
+\section{``Hill Climbing'' (Greedy Local)}\label{sec:``hill-climbing''-(greedy-local)}
+Assumption: We don't go to a repeated state
+
+\begin{center}
+	\textbf{Do we always need to care about the path to the goal?}
+\end{center}
+
+\section{Informed Search: the Idea}\label{sec:informed-search:-the-idea}
+When traversing the search tree, use domain knowledge / heuristics to avoid search paths (moves/actions) that are likely to be fruitless
+
+\section{Informed Search and Heuristics}\label{sec:informed-search-and-heuristics}
+Informed search relies on domain-specific knowledge/hints that help locate the goal state.
+
+\section{Hard Problems}\label{sec:hard-problems}
+\begin{itemize}
+	\item Many important problems are provably not solvable in polynomial time (NP and harder)
+	\item Results based on the worst-case analysis
+	\item In practice: instances are often easier
+	\item Approximate methods can often obtain good solutions
+\end{itemize}
+
+\section{Local Search}\label{sec:local-search}
+\begin{itemize}
+	\item Moves between configurations by performing local moves
+	\item Works with complete assignments of the variables
+	\item Optimization problems:
+	\begin{itemize}
+		\item Start from a suboptimal configuration
+		\item Move towards better solutions
+	\end{itemize}
+	\item Satisfaction problems:
+	\begin{itemize}
+		\item Start from an infeasible configuration
+		\item Move towards feasibility
+	\end{itemize}
+	\item NO guarantees
+	\item Can work great in practice!
+\end{itemize}
+
+\section{Local Search Algorithms}\label{sec:local-search-algorithms}
+If the path to the goal does not matter, we might consider a different class of algorithms.
+Local Search Algorithms
+\begin{itemize}
+	\item do not worry about paths at all.
+	\item Local Search
+\end{itemize}
+
+\subsection{Selecting Neighbor}\label{subsec:selecting-neighbor}
+\begin{itemize}
+	\item How to select the neighbor?
+	\begin{itemize}
+		\item exploring the whole or part of the neighborhood
+	\end{itemize}
+	\item Best neighbor
+	\begin{itemize}
+		\item Select ``the'' best neighbor in the neighborhood
+	\end{itemize}
+	\item First neighbor
+	\begin{itemize}
+		\item Select the first ``legal'' neighbor
+		\item Avoid scanning the entire neighborhood
+	\end{itemize}
+	\item Multi-stage selection
+	\begin{itemize}
+		\item Select one ``part'' of neighborhood and then
+		\item select from the remaining ``part'' of the neighborhood
+	\end{itemize}
+\end{itemize}
+
+\begin{itemize}
+	\item Hill-climbing search
+	\begin{itemize}
+		\item Gradient descent in continuous state spaces
+		\item Can use e.g. Newton's method to find roots
+	\end{itemize}
+	\item Simulated annealing search
+	\item Tabu search
+	\item Local beam search
+	\item Evolutionary/genetic algorithms
+\end{itemize}
+
+Although local search algorithms are not systematic, they have two key advantages:
+\begin{itemize}
+	\item they use very little memory -- usually a constant amount; and
+	\item the can often find reasonable
+\end{itemize}
+
+Local search algorithms are useful for search pure optimization problems, in which the aim is to find the best state according to the objective function
+
+\section{Simulated Annealing}\label{sec:simulated-annealing}
+\subsection{What Is It?}\label{subsec:what-is-it?}
+In metallurgy, annealing is the process used to temper or harden metals and glass by heating them to a high temperature $T$ and then gradually cooling them, thus allowing the material to coalesce into a low-energy $E$ crysalline state (less or no defects).
+
+Key Idea:
+\begin{itemize}
+	\item Use Metropolis algorithm but adjust the temperature dynamically
+	\item Start with a high temperature (random moves)
+	\item Decrease the temperature
+	\item When the temperature is low, becomes a local search
+\end{itemize}
+
+\section{Metropolis Heuristics}\label{sec:metropolis-heuristics}
+\subsection{Basic Idea}\label{subsec:basic-idea}
+\begin{itemize}
+	\item Accept a move if it improves the objective value
+	\item Accept ``bad moves'' as well with some probability
+	\item The probability depends on how ``bad'' the move is
+	\item Inspired by statistical physics
+\end{itemize}
+
+\subsection{How to choose the probability?}\label{subsec:how-to-choose-the-probability?}
+\begin{itemize}
+	\item $t$ is a scaling parameter (called temperature)
+	\item $\Delta$ is the difference $f(n) - f(s)$
+\end{itemize}
+
+\subsection{Fixed $T$}\label{subsec:fixed-$t$}
+\begin{itemize}
+	\item What happens for a large $T$?
+	\begin{itemize}
+		\item Probability of accepting a degrading move is large
+	\end{itemize}
+	\item What happends for a small $T$?
+	\begin{itemize}
+		\item Probability of accepting a degrading move is small
+	\end{itemize}
+\end{itemize}
+
+\begin{algorithm}[H]
+	\caption{Simulated Annealing Pseudocode}\label{alg:simulated-annealing}
+	\begin{algorithmic}[1]
+	\Function{Simulated-Annealing}{$problem,schedule$} \Returns a solution state
+		\State $current\ \gets problem.$INITIAL
+		\State $t\gets1$
+		\While{True}
+			\State $T\gets\Call{schedule}{t}$
+			\If{$T==0$} \Return $current$
+			\EndIf
+			\State $next\gets$ a randomly selected successor of $current$
+			\State $\Delta E\gets\Call{Value}{current} - \Call{Value}{next}$
+			\If{$\Delta E > 0$}
+				\State $current\gets next$
+			\Else
+				\State $current\gets next$ only with probability $e^{-\Delta E/T}$
+			\EndIf
+		\EndWhile
+	\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+\subsection{Temperature/Cooling Schedule}\label{subsec:temperature/cooling-schedule}
+Idea: start with
+
+\subsection{Summary}\label{subsec:summary}
+\begin{itemize}
+	\item Converges to a global optimum
+	\begin{itemize}
+		\item connected neighborhood
+		\item slow cooling schedule
+		\begin{itemize}
+			\item \emph{slower than the exhaustive search}
+		\end{itemize}
+	\end{itemize}
+	\item In practice
+	\begin{itemize}
+		\item can give excellent results
+		\item need to tune a temperature schedule
+		\item default choice: $t_{k+1}=\alpha t_{k}$
+	\end{itemize}
+	\item Additional tools
+	\begin{itemize}
+		\item restarts and reheats
+	\end{itemize}
+\end{itemize}
+
+\subsection{Applications}\label{subsec:applications}
+\begin{itemize}
+	\item Basic Problems
+	\begin{itemize}
+		\item Traveling salesman
+		\item Graph partitioning
+		\item Matching problems
+		\item Graph coloring
+		\item Scheduling
+	\end{itemize}
+	\item Engineering
+	\begin{itemize}
+		\item
+	\end{itemize}
+\end{itemize}
+
+\section{Heuristics and Metaheuristics}\label{sec:heuristics-and-metaheuristics}
+\begin{itemize}
+	\item Heuristics
+	\begin{itemize}
+		\item how to choose the next neighbor?
+		\item use local information (state and its neighborhood)
+		\item direct the search towards a local min/maximum
+	\end{itemize}
+	\item Metaheuristics
+	\begin{itemize}
+		\item how to escape local minima?
+		\item direct the search towards a global min/maximum
+		\item typically include some memory or learning
+	\end{itemize}
+\end{itemize}
+	%</1-29-2024>
+
+\end{document}
