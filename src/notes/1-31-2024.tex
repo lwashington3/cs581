@@ -1,0 +1,215 @@
+%! Author = Len Washington III
+%! Date = 1/31/2024
+%! compiler = pdflatex
+
+% Preamble
+\documentclass[title={January 31, 2024 Notes}]{cs581notes}
+
+% Document
+\begin{document}
+
+%<*1-31-2024>
+
+\newcommand{\representation}[2]{
+	\begin{table}[H]
+		\label{tab:representation-#1}
+		\centering
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+			\hline
+			\multicolumn{10}{|c|}{#1}\\
+			\hline
+			#2\\
+			\hline
+		\end{tabular}
+	\end{table}
+}
+
+\section{Local Beam Search}\label{sec:local-beam-search}
+The local beam search algorithm:
+\begin{itemize}
+	\item keeps track of $k$ states rather than just one
+	\item begins with $k$ randomly generated states
+	\item at each step, all the successors of $k$ states
+\end{itemize}
+
+\subsection{The Idea}\label{subsec:the-idea}
+In a local beam search useful information is passed among the $k$ parallel search threads.
+
+For example, if one state generates several good successors and the other $k-1$ states all generate bad successors, then the effect is that
+
+\section{Tabu Search}\label{sec:tabu-search}
+\subsection{Key Features}\label{subsec:key-features}
+\begin{itemize}
+	\item Always move to the best \emph{available} neighborhood solution, even if it is worse than the current solution
+	\item Maintain a list of solution points that must be avoided (not allowed) or a list of move features that are not allowed:
+	\begin{itemize}
+		\item This is the Tabu List.
+	\end{itemize}
+	\item Update the Tabu List based on some memory structure (short-term memory):
+	\begin{itemize}
+		\item Remove Tabu moves after some time period has elapsed (Tenure).
+	\end{itemize}
+	\item Allow for exceptions
+\end{itemize}
+
+\subsection{Memory Structures}\label{subsec:memory-structures}
+The memory structures used in Tabu Search can be divided into three categories:
+\begin{description}
+	\item[Short-term] The list of solutions recently considered.
+	If a potential solution appears on this list, it cannot be revisited until it reaches an expiration point (Tenure).
+	\item[Intermediate-term] A list of rules intended to bias the search towards promising areas of the search space.
+	\item[Long-term] Rules that promote diversity in the search process
+	(i.e. regarding resets when the search becomes stuck in a plateau or a suboptimal dead-end).
+\end{description}
+
+\subsection{Aspiration Criteria}\label{subsec:aspiration-criteria}
+A criteria which allows a Tabu move to be accepted under certain conditions.
+
+Most common aspiration criterion: If the move finds a new best solution, then accept the move even if the move is Tabu.
+
+\subsection{Tenure}\label{subsec:tenure}
+The Tabu Tenure is the number of iterations that a move stays in the Tabu List
+\begin{description}
+	\item[too small] risk of cycling
+	\item[too large] may restrict the search too much
+\end{description}
+
+\subsection{Intensification}\label{subsec:intensification}
+Search parameters can be locally modified in order to perform intensification and/or diversification
+
+\definition{Intensification}{usually applied when no configurations with a quality comparable to that of stored elite configuration(s), have been found in the }
+
+\subsection{Stopping Criteria}\label{subsec:stopping-criteria}
+Potential Stopping Criteria:
+\begin{itemize}
+	\item Number of iterations
+	\item Number of iterations without improvement
+	\item
+	\item
+\end{itemize}
+
+\chapter{Evolutionary Algorithms}\label{ch:evolutionary-algorithms}
+\section{Evolutionary Algorithms [Wikipedia]}\label{sec:evolutionary-algorithms-[wikipedia]}
+An evolutionary algorithm (EA) is a subset of evolutionary computation, a generic population-based metaheuristic optimization algorithm.\\
+
+An EA uses mechanisms inspired by biological evolution, such as reproduction, mutation, recombination, and selection.
+Candidate solutions to the optimization problem play the role of individuals in a population, and the fitness function determines the quality of the
+
+\section{Chromosome}\label{sec:chromosome}
+\definition{Chromosome}{a package of DNA with part of all of the genetic materials of an organism}
+
+\section{Artificial Chromosome}\label{sec:artificial-chromosome}
+In Evolutionary Algorithms, an artificial chromosome is a genetic representation of the task to be solved.\\
+
+Typically:
+\begin{center} 1 individual = 1 chromosome = 1 solution \end{center}
+Also called a genotype.
+
+	%</1-31-2024>
+
+\subsection{Representation}\label{subsec:chromosome-representation}
+Individuals / chromosomes can be represented as a string of values.
+Typically:
+\begin{itemize}
+	\item Binary
+	\representation{Binary}{0 & 1 & 0 & 0 & 1 & 1 & 1 & 0 & 1 & 1}
+	\item Integer
+	\representation{Integer}{2 & 1 & 11 & 2 & 3 & 78 &  &  &  & }
+	\item Floating-point
+	\representation{Float}{ &  &  &  &  &  &  &  &  & }
+\end{itemize}
+
+\section{Well-Suited Chromosome: Features}\label{sec:well-suited-chromosome:-features}
+\begin{itemize}
+	\item It must allow the accessibility of all admissible points in the search space.
+	\item Design the chromosome in such a way that it covers only the search space and no additional areas so that there is no redundancy or only as little
+\end{itemize}
+
+\section{Genotype vs Phenotype}\label{sec:genotype-vs-phenotype}
+\begin{minipage}[t]{0.5\textwidth}
+	\definition{Genotype}{Organism's full hereditary information, even if not expressed. Directly inherited from parents}
+\end{minipage}\begin{minipage}[t]{0.5\textwidth}
+\end{minipage}
+
+\section{Genes vs Alleles}\label{sec:genes-vs-alleles}
+\begin{minipage}[t]{0.5\textwidth}
+	\definition{Genotype}{Organism's full hereditary information, even if not expressed. Directly inherited from parents}
+\end{minipage}\begin{minipage}[t]{0.5\textwidth}
+\end{minipage}
+
+\section{Population}\label{sec:population}
+The set of solutions (individuals / chromosomes / genotypes) is called a population.
+
+\section{Individual Selection Mechanisms}\label{sec:individual-selection-mechanisms}
+
+\section{Crossover Mechanisms}\label{sec:crossover-mechanisms}
+
+\section{Potential Mutation}\label{sec:potential-mutation}
+\subsection{Mutation / Probability of Mutation}\label{subsec:mutation-/-probability-of-mutation}
+\begin{itemize}
+	\item Each component (bit, etc.) of every individual / chromosome is modified with \emph{mutation probability $m_{p}$}
+\end{itemize}
+
+\begin{algorithm}[H]
+	\caption{Genetic Algorithm Pseudocode}\label{alg:genetric-algorithm}
+	\begin{algorithmic}[1]
+	\Function{Genetric-Algorithm}{$population,\ fitness$} \Returns an individual
+		\Repeat
+			\State $weights\gets\Call{Weighted-By}{population, fitness}$
+			\State $population2\gets$ empty list
+			\For{$i=1$ to $\Call{Size}{population}$}
+				\State $parent1,\ parent2\gets\Call{Weighted-Random-Choices}{population, weights, 2}$
+				\State $child\gets\Call{Reproduce}{parent1,\ parent2}$
+				\If{small random probability}
+					\State $child\gets\Call{Mutate}{child}$
+				\EndIf
+				\State add $child$ to $population2$
+			\EndFor
+			\State $population\gets population2$
+		\Until{some individual is fit enough, or enough time has elapsed}
+		\State \Return the best individual in $population$, according to $fitness$
+	\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+\section{Genetic Algorithms}\label{sec:genetic-algorithms}
+\subsection{Design Issues}\label{subsec:design-issues}
+\begin{itemize}
+	\item Choosing basic implementation issues:
+	\begin{itemize}
+		\item representation
+		\item
+		\item
+		\item
+	\end{itemize}
+	\item Termination criteria
+	\item Performance, scalability
+	\item Solution is only as good as the evaluation function (often the hardest part)
+\end{itemize}
+
+\subsection{Benefits}\label{subsec:genetic-algorithms-benefits}
+\begin{itemize}
+	\item Easy to understand and implement
+	\item Modular, separate from application
+	\item Supports multi-objective optimization
+	\item Good for ``noisy'' environments
+	\item Always has an answer
+	\begin{itemize}
+		\item Answers get better with time
+	\end{itemize}
+	\item Inherently parallel $\rightarrow$
+	\item Variety of ways to improve performance as knowledge about the problem domain is gained
+	\item Can exploit historical / alternative solutions
+	\item Can be easily
+\end{itemize}
+
+\subsection{When to Use}\label{subsec:when-to-use}
+\begin{itemize}
+	\item Other solutions too slow or overly complicated (intractable mathematically)
+	\item As an exploratory tool to examine new approaches
+\end{itemize}
+
+\subsection{Selected GA Applications}\label{subsec:selected-ga-applications}
+
+
+\end{document}
