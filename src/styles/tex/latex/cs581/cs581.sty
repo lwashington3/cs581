@@ -26,5 +26,36 @@
 	subject=\cs@subject,
 	code=\cs@subjectCode
 ]{iitacademics}
+\RequirePackage{tikz-qtree}
 
 \newcommand{\definition}[2]{\textbf{\textcolor{red}{#1}} -- #2}
+
+\usetikzlibrary{scopes,trees,positioning,graphs,arrows.meta,shapes,shapes.geometric,decorations.markings}
+\newcommand{\newtikzset}{
+	\tikzset{every node/.style={minimum width=2em,draw,circle},
+		blank/.style={draw=none},
+		edge from parent/.style=
+			{draw,edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}},
+		level distance=1cm,
+		sibling distance=5mm}
+}
+
+\newcommand{\nodeset}[1][.]{
+	\ifinanswer%
+	\colorlet{current}{blue}%
+	\else%
+	\colorlet{current}{#1}%
+	\fi%
+	\tikzset{every node/.style={current,circle,draw}}
+}
+
+\newcommand{\pathset}[1][.]{
+	\ifinanswer%
+	\colorlet{current}{blue}%
+	\else%
+	\colorlet{current}{#1}%
+	\fi%
+	\tikzset{>={Stealth[current]},
+		every node/.style={current,fill=white,circle},
+		every edge/.style={current,draw,very thick}}%draw=current instead of current,draw?
+}

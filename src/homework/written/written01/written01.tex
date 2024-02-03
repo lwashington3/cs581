@@ -1,0 +1,382 @@
+%! Author = Len Washington III
+%! Date = 2/3/24
+
+% Preamble
+\documentclass[assignment={1},
+duedate={Saturday, February 10, 2024, 11:59 PM CST},
+points={30}]{cs581homework}
+\usepackage{array}
+\usepackage{colortbl}
+
+\newcommand{\minimax}{
+	\begin{figure}[H]
+		\centering
+		\caption{Test below}
+		\begin{tikzpicture}[
+				level/.style={level distance=15mm,sibling distance=2cm},
+				level 1/.style={sibling distance=6cm},
+				level 2/.style={sibling distance=2cm},
+				triangle/.style={regular polygon, regular polygon sides=3, draw,minimum width=1cm},
+				max/.style={triangle},
+				min/.style={triangle, shape border rotate=180},
+				edge from parent/.style={draw,edge from parent path={(\tikzparentnode) -> (\tikzchildnode)},->,>=stealth,thick},
+			]
+			\node [triangle] (root) {}
+			child { node [min] {}
+				child {node[max,label=below:11] {}}
+				child {node[max,label=below:9] {}}
+				child {node [max] {}
+					child {node [max,label=below:13] {}}
+					child {node [max] {}
+						child {node [max,label=below:19] {}}
+						child {node [max,label=below:15] {}}
+					}
+				}
+			}
+			child {node [min] {}
+				child {node [max,label=below:12] {}}
+				child {node [max] {}
+					child {node [min,label=below:7] {}}
+					child {node [min] {}
+						child {node [max,label=below:8] {}}
+						child {node [max,label=below:4] {}}
+					}
+				}
+			}
+			child {node [min] {}
+				child {node [max,label=below:6] {}}
+				child {node [max,label=below:2] {}}
+				child {node [max,label=below:16] {}}
+			};
+		\end{tikzpicture}\label{fig:figure}
+	\end{figure}
+}
+
+\newcommand{\minimaxnodeset}[1][.]{
+	\ifinanswer%
+	\colorlet{current}{blue}%
+	\else%
+	\colorlet{current}{#1}%
+	\fi%
+	\tikzset{
+		every node/.style={isosceles triangle,draw,minimum size=1cm,isosceles triangle apex angle=60},
+		edge from parent/.style={draw,edge from parent path={(\tikzparentnode) -> (\tikzchildnode)}},
+		max/.style={rotate=90},
+		min/.style={rotate=90},
+		sibling distance=5mm,
+		level distance=1cm
+	}
+}
+
+
+\newcommand{\minimaxpathset}[1][.]{
+	\ifinanswer%
+	\colorlet{current}{blue}%
+	\else%
+	\colorlet{current}{#1}%
+	\fi%
+	\tikzset{>=,
+		every node/.style={current,fill=white,circle,label=bottom},
+		every edge/.style={current,draw,very thick},
+		max/.style={},
+		min/.style={},
+		edge from parent/.style={draw,edge from parent path={(\tikzparentnode) -> (\tikzchildnode)}},}%draw=current instead of current,draw?
+}
+
+\renewcommand{\nodeset}[1][.]{
+	\ifinanswer%
+	\colorlet{current}{blue}%
+	\else%
+	\colorlet{current}{#1}%
+	\fi%
+	\tikzset{every node/.style={current,rectangle,rounded corners,draw,thick,minimum width=1.2cm,minimum height=0.75cm}}
+}
+
+\renewcommand{\pathset}[1][.]{
+	\ifinanswer%
+	\colorlet{current}{blue}%
+	\else%
+	\colorlet{current}{#1}%
+	\fi%
+	\tikzset{>={Stealth[current]},
+		every node/.style={current,fill=white,circle},
+		every edge/.style={current,draw,very thick}}%draw=current instead of current,draw?
+}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\newcommand{\heading}[1]{\textcolor{white}{\textbf{#1}}}
+
+% Document
+\begin{document}
+
+\maketitle
+
+\begin{objectives}
+	\begin{enumerate}
+	    \item (10 points) Demonstrate your understanding of MiniMax search algorithm,
+	    \item (10 points) Demonstrate your understanding of A* search algorithm,
+	    \item (10 points) Demonstrate your understanding of a basic Genetic algorithm.
+	\end{enumerate}
+\end{objectives}
+
+\problem[5]{1}
+Apply MiniMax algorithm on the following game tree.
+What is the maximum utility that MAX can achieve, assuming MIN plays optimally?
+\minimax
+
+\problem[5]{2}
+This is the same game as Problem 1.
+Hand trace the alpha-beta search.
+Show the updated bounds on the nodes.
+Clearly mark which branches are pruned, if any.
+\minimax
+
+\problem[10]{3}
+Consider the following problem \textbf{state space} (undirected and weighted) graph (fig.~\ref{fig:cities-and-roads}) representing a map with cities (vertices) and roads (maps).
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\begin{scope}\nodeset
+			\node (A) at (0,0) {\textbf{A}};
+			\node (B) at (2,0) {\textbf{B}};
+			\node (C) at (4,0) {\textbf{C}};
+
+			\node (D) at (0,-2) {\textbf{D}};
+			\node (E) at (2,-2) {\textbf{E}};
+
+			\node (F) at (-4,-4) {\textbf{F}};
+			\node (G) at (-2,-4) {\textbf{G}};
+			\node (H) at (0,-4) {\textbf{H}};
+			\node (I) at (2,-4) {\textbf{I}};
+
+			\node (J) at (-4,-6) {\textbf{J}};
+			\node (K) at (-2,-6) {\textbf{K}};
+		\end{scope}
+		\begin{scope}\pathset
+			\path (A) edge (B);
+			\path (A) edge (D);
+			\path (A) edge (E);
+
+			\path (B) edge (C);
+			\path (B) edge (E);
+
+			\path (D) edge (E);
+			\path (D) edge (F);
+			\path (D) edge (G);
+			\path (D) edge (H);
+
+			\path (E) edge (H);
+			\path (E) edge (I);
+
+			\path (F) edge (G);
+			\path (F) edge (J);
+			\path (F) edge (K);
+
+			\path (G) edge (K);
+
+			\path (H) edge (I);
+
+			\path (J) edge (K);
+		\end{scope}
+	\end{tikzpicture}
+	\caption{Problem state space (``cities and roads'').}
+	\label{fig:cities-and-roads}
+\end{figure}
+The table (Table~\ref{tab:adjacency-matrice}) below provides adjacency matrices for the state space graph above (Driving distances) and a corresponding (but not shown) straight-line distances graph.\\
+
+Data in matrices represents action host and heuristic function values, respectively.
+
+\begin{table}[H]
+    \centering
+	\begin{tabular}{|p{0.5mm}|c|*{11}{P{0.0625\textwidth}|}p{0.5mm}|}
+		\hline
+		\multicolumn{14}{|c|}{a) Driving distances}\\
+		\hline
+		 & \textbf{} & \textbf{H} & \textbf{K} & \textbf{E} & \textbf{J} & \textbf{C} & \textbf{B} & \textbf{G} & \textbf{D} & \textbf{F} & \textbf{I} & \textbf{A} & \\
+		\hline
+		 & \textbf{H} & 0 & 0 & 102 & 0 & 0 & 0 & 0 & 114 & 0 & 87 & 0 & \\
+		\hline
+		 & \textbf{K} & 0 & 0 & 0 & 64 & 0 & 0 & 112 & 0 & 129 & 0 & 0 & \\
+		\hline
+		 & \textbf{E} & 102 & 0 & 0 & 0 & 0 & 68 & 0 & 170 & 0 & 50 & 180 & \\
+		\hline
+		 & \textbf{J} & 0 & 64 & 0 & 0 & 0 & 0 & 0 & 0 & 112 & 0 & 0 & \\
+		\hline
+		 & \textbf{C} & 0 & 0 & 0 & 0 & 0 & 164 & 0 & 0 & 0 & 0 & 0 & \\
+		\hline
+		 & \textbf{B} & 0 & 0 & 68 & 0 & 164 & 0 & 0 & 0 & 0 & 0 & 116 & \\
+		\hline
+		 & \textbf{G} & 0 & 112 & 0 & 0 & 0 & 0 & 0 & 205 & 127 & 0 & 0 & \\
+		\hline
+		 & \textbf{D} & 114 & 0 & 170 & 0 & 0 & 0 & 205 & 0 & 293 & 0 & 158 & \\
+		\hline
+		 & \textbf{F} & 0 & 129 & 0 & 112 & 0 & 0 & 127 & 293 & 0 & 0 & 0 & \\
+		\hline
+		 & \textbf{I} & 87 & 0 & 50 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & \\
+		\hline
+		 & \textbf{A} & 0 & 0 & 180 & 0 & 0 & 116 & 0 & 158 & 0 & 0 & 0 & \\
+		\hline
+		\multicolumn{14}{|c|}{b) Straight-line distances} \\
+		\hline
+		 & \textbf{} & \textbf{H} & \textbf{K} & \textbf{E} & \textbf{J} & \textbf{C} & \textbf{B} & \textbf{G} & \textbf{D} & \textbf{F} & \textbf{I} & \textbf{A} & \\
+		\hline
+		 & \textbf{H} & 0 & 234 & 93 & 278 & 229 & 116 & 151 & 82 & 242 & 66 & 172 & \\
+		\hline
+		 & \textbf{K} & 234 & 0 & 322 & 53 & 463 & 348 & 84 & 258 & 105 & 284 & 384 & \\
+		\hline
+		 & \textbf{E} & 93 & 322 & 0 & 368 & 149 & 63 & 242 & 139 & 335 & 41 & 152 & \\
+		\hline
+		 & \textbf{J} & 278 & 53 & 368 & 0 & 505 & 390 & 126 & 291 & 91 & 332 & 417 & \\
+		\hline
+		 & \textbf{C} & 229 & 463 & 149 & 505 & 0 & 116 & 380 & 230 & 458 & 191 & 138 & \\
+		\hline
+		 & \textbf{B} & 116 & 348 & 63 & 390 & 116 & 0 & 265 & 119 & 342 & 96 & 89 & \\
+		\hline
+		 & \textbf{G} & 151 & 84 & 242 & 126 & 380 & 265 & 0 & 176 & 113 & 206 & 301 & \\
+		\hline
+		 & \textbf{D} & 82 & 258 & 139 & 291 & 230 & 119 & 176 & 0 & 231 & 133 & 126 & \\
+		\hline
+		 & \textbf{F} & 242 & 105 & 335 & 91 & 458 & 342 & 113 & 231 & 0 & 305 & 353 & \\
+		\hline
+		 & \textbf{I} & 66 & 284 & 41 & 332 & 191 & 96 & 206 & 133 & 305 & 0 & 178 & \\
+		\hline
+		 & \textbf{A} & 172 & 384 & 152 & 417 & 138 & 89 & 301 & 126 & 353 & 178 & 0 & \\
+		\hline
+	\end{tabular}
+	\caption{Adjacency matrices for the problem.}
+	\label{tab:adjacency-matrices}
+\end{table}
+
+\textbf{Your task}: Apply the A* Search algorithm to the problem with following initial/goal states:
+\begin{center} \textbf{initial state ($IS$): $F$} \hspace*{0.125\textwidth} \textbf{goal state ($GS$): $I$} \end{center}
+
+Show how the tree search develops:
+\begin{itemize}
+	\item assume that \textbf{root node (corresponding to $F$) was already dequeued from the frontier} (see updated Reached structure below) and is ready to be expanded,
+	\item \textbf{show the search tree after first TWO (2) expansions},
+	\item \textbf{show changes in the frontier and reached/visited structures \\\textcolor{red}{\underline{BEFORE AND AFTER EVERY NODE EXPANSION}}}
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+	\begin{tabular}{|c|*{12}{P{0.06\textwidth}|}}
+		\hline
+		\multicolumn{13}{|c|}{\textbf{Frontier structure [front $\leftarrow$ rear]}}\\
+		\hline
+		Parent &  &  &  &  &  &  &  &  &  &  &  &\\
+		\hline
+		State &  &  &  &  &  &  &  &  &  &  &  &  \\
+		\hline
+		$f()$ &  &  &  &  &  &  &  &  &  &  &  &  \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+	\begin{tabular}{|c|*{12}{P{0.05\textwidth}|}}
+		\hline
+		\multicolumn{13}{|c|}{\textbf{Reached / visited}}\\
+		\hline
+		Parent & - &  &  &  &  &  &  &  &  &  &  &\\
+		\hline
+		State & $F$ &  &  &  &  &  &  &  &  &  &  &  \\
+		\hline
+		distance from $IS$ & 0 &  &  &  &  &  &  &  &  &  &  &  \\
+		\hline
+	\end{tabular}
+\end{table}
+Show your work below (make sure it is legible)
+
+\begin{table}[H]
+    \centering
+	\begin{tabular}{|p{\textwidth}|}
+		\hline
+		\textbf{Search Tree diagrams + structures}\\
+		\hline
+		\vspace{0.4\paperheight}\\
+		\hline
+	\end{tabular}
+\end{table}
+
+\problem[10]{4}
+You are solving an optimization problem using a basic Genetic Algorithm
+Algorithm parameters are:
+\begin{itemize}
+	\item Individual representation:
+	\begin{itemize}
+		\item binary with 16th bits,
+		\item first 8 bits correspond to a $\mbox{base}_{2}$ (binary) encoding of $\mbox{base}_{10}$ variable (``gene'') $X$ value,
+		\item second 8 bits correspond to a $\mbox{base}_{2}$ (binary) encoding of $\mbox{base}_{10}$ variable (``gene'') $Y$ value,
+	\end{itemize}
+	\item Population size $N=6,$
+	\item Fitness function: \[ f(X, Y) = -\left( X^{2} + Y^{2} \right) + 28000 \]
+	\item Selection mechanism:
+	\begin{itemize}
+		\item Order individuals according to their fitness in \textbf{descending order} (in case of ties: the individual that was first in unordered population goes first here as well)
+		\item offspring is created by pairing two subsequent parents with ``wraparound'':
+		\begin{itemize}
+			\item $parent_{1}\ +\ parent_{2} \rightarrow\ child_{1}$,
+			\item $parent_{2}\ +\ parent_{3} \rightarrow\ child_{2}$,
+			\item $\dots$
+			\item $parent_{N-1}\ +\ parent_{N} \rightarrow\ child_{N-1}$,
+			\item $parent_{N}\ +\ parent_{1} \rightarrow\ child_{N}$
+		\end{itemize}
+	\end{itemize}
+	\item Probability of crossover $P_{c}=1$,
+	\item Crossover mechanism: 2-point crossover with crossover points after the 4th and 12th bit (counting from the left),
+	\item Probability of mutation $P(m)=0$.
+\end{itemize}
+
+Your initial population is shown below:
+\begin{table}[H]
+    \centering
+	\label{tab:gen-1}
+    \begin{tabular}{|l|*{16}{P{0.025\textwidth}|}}
+		\rowcolor{black}\multicolumn{17}{|l|}{\heading{Generation 1}}\\
+		\hline
+		Individual 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		\hline
+		Individual 2 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+		\hline
+        Individual 3 & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 1 \\
+		\hline
+        Individual 4 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 \\
+		\hline
+        Individual 5 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 \\
+		\hline
+        Individual 6 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 \\
+		\hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\label{tab:gen-1-evaluation}
+	\begin{tabular}{|*{5}{P{0.2\textwidth}|}}
+		\rowcolor{black}\multicolumn{5}{|l|}{\heading{Generation 1 Evaluation}}\\
+		\rowcolor{black} \heading{Individual} & \heading{$X$} & \heading{$Y$} & \heading{Fitness} & \heading{Fitness Ratio [\%]}\\
+		\hline
+		Individual 1 & & & & \\
+		\hline
+		Individual 2 & & & & \\
+		\hline
+		Individual 3 & & & & \\
+		\hline
+		Individual 4 & & & & \\
+		\hline
+		Individual 5 & & & & \\
+		\hline
+		Individual 6 & & & & \\
+		\hline
+	\end{tabular}
+\end{table}
+Now, apply the Genetic Algorithm specified above.
+Stop after Generation 4 is created and evaluated:
+\begin{itemize}
+	\item populate and show Generation and Generation Evaluation tables every time a new generation is created,
+	\item generate $Fitness\ =\ f(Generation)$ plot.
+	It is enough to plot best individual of the generation's fitness.
+\end{itemize}
+
+
+\end{document}
