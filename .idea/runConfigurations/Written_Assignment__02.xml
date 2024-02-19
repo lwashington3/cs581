@@ -4,8 +4,8 @@
       <compiler>PDFLATEX</compiler>
       <compiler-path />
       <sumatra-path />
-      <pdf-viewer>EVINCE</pdf-viewer>
-      <viewer-command />
+      <pdf-viewer>NONE</pdf-viewer>
+      <viewer-command>pdfopener</viewer-command>
       <compiler-arguments />
       <envs />
       <main-file>$PROJECT_DIR$/src/homework/written/written02/written02.tex</main-file>

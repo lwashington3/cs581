@@ -1,0 +1,169 @@
+%! Author = Len Washington III
+%! Date = 2/19/2024
+%! compiler = pdflatex
+
+% Preamble
+\documentclass[title={February 19, 2024 Notes}]{cs581notes}
+
+% Document
+\begin{document}
+
+%<*2-19-2024>
+
+\section{Emergence [Wikipedia]}\label{sec:emergence-[wikipedia]}
+In philosophy, systems theory, science, and art, \emph{emergence occurs when a complex entity has properties or behaviors that its parts do not have on their own}, and emerge only when they interact in a wider whole.\\
+
+Emergence plays
+
+\chapter{Flock and Schools}\label{ch:flock-and-schools}
+\section{Socio-cognitive Underpinnings}\label{sec:socio-cognitive-underpinnings}
+Universal individual behavior principles:
+\begin{description}
+	\item[Evaluate] tendency to evaluate stimuli (positive/negative, attractive/repulsive) is shared among all kinds of living organisms
+	\item[Compare] Comparing to others is a driver for learning and change
+	\item[Imitate] Effective strategy for learning, through not many living organisms are capable of full imitation
+\end{description}
+
+\section{Rules}\label{sec:rules}
+Emergent behavior in flocks and schools can be reduced to simple rules:
+\begin{description}
+	\item[Separation] an individual should avoid crowding or colliding with its neighbors
+	\item[Alignment] an individual should steer in the average heading of its neighbor
+	\item[Cohesion]
+\end{description}
+
+\chapter{Particle Swarm Optimization (PSO)}\label{ch:particle-swarm-optimization}
+In computational science, particle swarm optimization (PSO) is a computational method that optimizes a problem by iteratively
+
+\section{Particle Properties}\label{sec:particle-properties}
+\begin{description}
+	\item[Current position]
+	\item[Best position]
+	\item[Velocity]
+\end{description}
+
+\section{Parameters}\label{sec:parameters}
+\begin{itemize}
+	\item Number of particles $K$
+	\item $c_{1}$ significance of personal particle experience (trust in individual knowledge)
+	\item $c_{2}$ significance of swarm experience (trust in social knowledge)
+	\item Inertia weight $w$
+	\begin{itemize}
+		\item Sort of like a learning rate
+	\end{itemize}
+	\item $V_{\max}$ velocity cap
+	\item $N_{i}$ neighborhood of particle $i$
+\end{itemize}
+
+%\begin{algorithm}[H]
+%	\caption{PSO Algorithm}\label{alg:pso}
+%	\begin{algorithmic}[1]
+%	\Function{PSO}{$$}
+%		\State 1
+%	\EndFunction
+%	\end{algorithmic}
+%\end{algorithm}
+
+\section{Cycle}\label{sec:cycle}
+Create a swarm (population) of $K$ particles initialized with:
+\begin{itemize}
+	\item random position (point) in search space
+	\begin{itemize}
+		\item best if uniformly distributed over space
+	\end{itemize}
+	\item velocity set to:
+	\begin{itemize}
+		\item zero or
+		\item random in $[-V_{\max},V_{\max}]$
+	\end{itemize}
+	\item Use fitness function to determine how fit (how well it solves the problem) each particle is \emph{initially}.
+	\item Update particle position (point in search space) and velocity while balancing exploitation and exploration.
+\end{itemize}
+
+\section{Where Next?}\label{sec:where-next?}
+\begin{itemize}
+	\item $x_{G,\ best}^{t}$=swarm's (global) best position
+	\item $x_{i,\ best}^{t}$=Particle $i$'s best position
+\end{itemize}
+
+\section{Particle Position Update}\label{sec:particle-position-update}
+Next position: \[ x_{i}^{t+1} = x_{i}^{t} + \vec{v}_{i}^{t+1} \]
+where
+\begin{description}
+	\item[$\mathbf{x_{i}^{t+1}}$] $i$'s next position
+	\item[$\mathbf{x_{i}^{t}}$] $i$'s current position
+	\item[$\vec{\mathbf{v}}\mathbf{_{i}^{t+1}}$] $i$'s next velocity
+\end{description}
+
+Next velocity: \[ \vec{v}_{i}^{t+1} = w\times \vec{v}_{i}^{t} + c_{1}\times a\times(x_{i,\ best}^{t} - x_{i}^{t}) + c_{2}\times b\times(x_{G,\ best}^{t} - x_{i}^{t}) \]
+
+where
+\begin{description}
+	\item[$a=$] random number in $[0; 1]$
+	\item[$b=$] random number in $[0; 1]$
+\end{description}
+
+Also common: \[ \vec{v}_{i}^{t+1} = \vec{v}_{i}^{t} + c_{1}\times a\times(x_{i,\ best}^{t} - x_{i}^{t}) + c_{2}\times b\times(x_{G,\ best}^{t} - x_{i}^{t}) \]
+
+\section{Psychosocial Compromise}\label{sec:psychosocial-compromise}
+
+\section{Check the termination condition}\label{sec:check-the-termination-condition}
+
+\section{Controlling the Search}\label{sec:controlling-the-search}
+\begin{itemize}
+	\item If velocity is too low $\rightarrow$ algorithm too slow
+	\item If velocity is too $\rightarrow$ algorithm too unstable
+\end{itemize}
+
+\section{$c_{1}$ and $c_{2}$ Parameters}\label{sec:$c_{1}$-and-$c_{2}$-parameters}
+Should add up to 4.
+
+\section{$V_{\max}$ Velocity Cap}\label{sec:-velocity-cap}
+To better control particle trajectory and prevent stochastic velocity change to have uncontrolled
+
+\section{Diversification}\label{sec:diversification}
+Particles need time to
+
+\section{Characteristics}\label{sec:characteristics}
+\begin{description}
+	\item[] PSO has a memory:
+	\begin{itemize}
+		\item ``where'' the best solution was (as opposed to ``what'')
+	\end{itemize}
+	\item[Quality] population respond
+\end{description}
+
+\section{Advantages / Disadvantages}\label{sec:advantages-/-disadvantages}
+\subsection{Advantages}\label{subsec:advantages}
+\begin{itemize}
+	\item Insensitive to scaling of design variables
+	\item Simple implementation
+	\item Easily parallelized
+\end{itemize}
+
+\section{Variants / Modifications}\label{sec:variants-/-modifications}
+\begin{itemize}
+	\item 2-D Otsu PSO
+	\item Active Target PSO
+	\item Adaptive PSO
+\end{itemize}
+
+\section{Heuristics and Metaheuristics}\label{sec:heuristics-and-metaheuristics}
+\subsection{Heuristics}\label{subsec:heuristics}
+\begin{itemize}
+	\item how to choose the next neighbor?
+	\item use local information (state and its neighborhood)
+	\item direct the search towards a \emph{local} maximum
+\end{itemize}
+
+\section{Other Swarm Algorithms}\label{sec:other-swarm-algorithms}
+\begin{itemize}
+	\item Bat Algorithm
+	\item Artificial Fish Swarm
+	\item Cuckoo Swarm
+\end{itemize}
+
+%</2-19-2024>
+\chapter{Gradient Descent}\label{ch:gradient-descent}
+
+\end{document}
