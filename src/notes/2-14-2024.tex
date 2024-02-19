@@ -1,0 +1,74 @@
+%! Author = Len Washington III
+%! Date = 2/18/2024
+%! compiler = pdflatex
+
+% Preamble
+\documentclass[title={February 14, 2024 Notes}]{cs581notes}
+
+% Document
+\begin{document}
+
+%<*2-14-2024>
+\maketitle
+
+\section{Random Experiment}\label{sec:random-experiment}
+\begin{itemize}
+	\item The agent needs reason in an uncertain world
+	\item Uncertainty can be due to
+	\begin{itemize}
+		\item Noisy sensors (e.g., temperature, GPS, camera, etc.)
+		\item Imperfect data (e.g., low resolution image)
+		\item Missing data (e.g., lab tests)
+		\item Imperfect knowledge (e.g., medical diagnosis)
+		\item Exceptions (e.g., all birds fly except ostriches, penguins, birds with injured winds, dead birds, $\dots$)
+		\item Changing data (e.g., flu seasons, traffic conditions, etc.)
+		\item $\dots$
+	\end{itemize}
+	\item The agent still must act (e.g., step on the breaks, diagnose a patient, order a lab test, $\dots$)
+\end{itemize}
+Random Experiment is \emph{a process} by which we \emph{observing something uncertain}.\\
+
+An \emph{outcome} is a \emph{result of a random experiment}.\\
+
+The \emph{set of all possible outcomes} is called the \emph{sample space $S$} (frequently labeled $\Omega$).
+
+\section{Probability In AI: Selected Application}\label{sec:probability-in-ai:-selected-application}
+\begin{itemize}
+	\item Classification
+	\begin{itemize}
+		\item Na\"ive Bayes, logistic regression, neural networks
+		\item Maximum likelihood estimation, Bayesian estimation, gradient optimization, backpropagation
+	\end{itemize}
+	\item Decision making
+	\begin{itemize}
+		\item Episodic decision making, Markov decision processes, multi-armed bandits
+		\item Value of information, Bellman equations, value iteration, policy iteration, UCB1, $\epsilon$-greedy
+	\end{itemize}
+	\item Reinforcement learning
+	\begin{itemize}
+		\item Prediction, control, Monte-Carlo methods, temporal difference learning, Sarsa, Q-learning
+	\end{itemize}
+\end{itemize}
+
+\section{Outcomes / Sample Space / Event}\label{sec:outcomes-sample-space-event}
+\definition{Outcome}{A \emph{result of a random experiment}}\\
+
+\definition{Sample space $S$}{The \emph{set of all possible outcomes}}\\
+
+\definition{Event}{A \emph{subset} of the \emph{sample space $S$}}
+
+\section{Events}\label{sec:events}
+\section{Union and Intersection}\label{sec:events:-union-and-intersection}
+If $A$ and $B$ are \emph{events}, then \[ A \cap B \] and \[ A \cup B \] are also \emph{events}.
+\begin{description}
+	\item[$\cup$] union (``or'')
+	\item[$\cap$] intersection (``and'')
+\end{description}
+\definition{Simple event}{An \emph{event that cannot be decomposed}}
+
+\section{Complementary Event}\label{sec:complementary-event}
+The \emph{complement} of any event $A$ is the event $A'$ (``not $A$''), i.e. \emph{the event that $A$ does not occur}.
+
+%</2-14-2024>
+
+\end{document}

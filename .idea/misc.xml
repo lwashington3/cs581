@@ -3,12 +3,6 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.11" />
   </component>
-  <component name="MarkdownSettings">
-    <enabledExtensions>
-      <entry key="MermaidLanguageExtension" value="false" />
-      <entry key="PlantUMLLanguageExtension" value="false" />
-    </enabledExtensions>
-  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>

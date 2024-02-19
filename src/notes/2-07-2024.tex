@@ -1,0 +1,273 @@
+%! Author = Len Washington III
+%! Date = 2/07/2024
+%! compiler = pdflatex
+
+% Preamble
+\documentclass[title={February 07, 2024 Notes}]{cs581notes}
+
+% Document
+\begin{document}
+
+%<*2-07-2024>
+\section{Evolutionary Algorithms [Wikipedia]}\label{sec:evolutionary-algorithms-[wikipedia]}
+An evolutionary algorithm (EA) is a subset of evolutionary computation, a generic \emph{population-based metaheuristic optimization algorithm}.\\
+
+An EA uses mechanisms inspired by biological evolution, such as \emph{reproduction, mutation, recombination, and selection.}
+\emph{Candidate solutions to the optimization problem play the role of individuals} in a population,
+and \emph{the fitness function determines the quality of the solutions} (see also loss function).\\
+
+\emph{Evolution} of the population then takes place after the \emph{repeated application of the above operators}.
+
+\chapter{Genetic Algorithm}\label{ch:genetic-algorithm}
+\section{Components}\label{sec:genetic-algorithm-components}
+\begin{table}[H]
+    \centering
+	\caption{Simple Genetic Algorithm}
+	\label{tab:summary}
+	\begin{tabular}{|>{\columncolor{black}}P{0.4\textwidth}|P{0.4\textwidth}|}
+		\hline
+		\textcolor{white}{\textbf{Representation}} & Bit strings\\
+		\hline
+		\textcolor{white}{\textbf{Recombination}} & 1-point crossover\\
+		\hline
+		\textcolor{white}{\textbf{Mutation}} & Bit flip\\
+		\hline
+		\textcolor{white}{\textbf{Parent Selection}} & Fitness proportional\\
+		\hline
+		\textcolor{white}{\textbf{Survival Selection}} & Generational\\
+		\hline
+	\end{tabular}
+\end{table}
+
+\subsection{Chromosome: Representation}\label{subsec:chromosome:-representation}
+Individuals / chromosomes can be represented as a string of values.
+
+\subsection{Binary Representation Issues}\label{subsec:binary-representation-issues}
+
+\begin{table}[H]
+	\centering
+	\caption{Chromosome $A$}
+	\label{tab:chromosome-a}
+	\begin{tabular}{|*{10}{c|}}
+		\hline
+		\multicolumn{10}{|c|}{Variable/Gene = 512}\\
+		\hline
+		\textcolor{red}{1} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+		\hline
+	\end{tabular}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\caption{Chromosome $A$}
+	\label{tab:chromosome-a-mutation}
+	\begin{tabular}{|*{10}{c|}}
+		\hline
+		\multicolumn{10}{|c|}{Variable/Gene = 0}\\
+		\hline
+		\textcolor{red}{0} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+		\hline
+	\end{tabular}
+\end{table}
+
+
+Small, one bit, change can lead to drastic fitness changes.
+Solution: \emph{use Gray Code}.
+
+\subsection{Gray Code}\label{subsec:gray-code}
+The reflected binary code (RBC), also known as reflected binary (RB) or Gray Code (named after Frank Gray -- Bell Labs),
+is an \emph{ordering of the binary numeral system such that two successive values differ in only one bit} (binary digit).
+
+\begin{table}[H]
+	\centering
+	\caption{Gray Code}
+	\label{tab:gray-code}
+	\begin{tabular}{|*{6}{P{0.15\textwidth}|}}
+		\hline
+		\rowcolor{black} \header{Decimal} & \header{Binary} & \header{Gray} & \header{Decimal} & \header{Binary} & \header{Gray}\\
+		\hline
+		0 & 0000 & 0000 & 7 & 0111 & 0100 \\
+		\hline
+		1 & 0001 & 0001 & 8 & 1000 & 1100 \\
+		\hline
+		2 & 0010 & 0011 & 9 & 1001 & 1101 \\
+		\hline
+		3 & 0011 & 0010 & 10 & 1010 & 1111 \\
+		\hline
+		4 & 0100 & 0110 & 11 & 1011 & 1110 \\
+		\hline
+		5 & 0101 & 0111 & 12 & 1100 & 1010 \\
+		\hline
+		6 & 0110 & 0101 & 13 & 1101 & 1011 \\
+		\hline
+	\end{tabular}
+\end{table}
+
+
+\subsubsection{Hamming Distance}\label{subsubsec:hamming-distance}
+The \emph{Hamming distance} between \emph{two equal-length strings} of symbols is the \emph{number of positions at which the corresponding symbols are different}.\\
+
+\emph{Gray code}: subsequent numbers $\rightarrow$ \emph{Hamming distance of 1}
+
+\subsection{Integer Representation}\label{subsec:integer-representation}
+\begin{itemize}
+	\item Some problems naturally map (8-queens) to integer representations
+	\begin{itemize}
+		\item solution is an assignment variable = integer value
+	\end{itemize}
+	\item Unrestricted: any value is permissible
+	\item Restricted: only values from a certain set / domain
+	\begin{itemize}
+		\item for example $\{0, 1, 2, 3\}$ for $\{\mbox{North, East, South, West}\}$
+	\end{itemize}
+	\item Consider:
+	\begin{itemize}
+		\item is there any relationship between values (e.g. 3 is more like 4 than 789 $\rightarrow$ ordinal relationship) or not (\{North, East, South, West\})
+		\item Choose your recombination / mutation strategy accordingly
+	\end{itemize}
+\end{itemize}
+
+\section{Permutation Encoding}\label{sec:permutation-encoding}
+In permutation encoding, \emph{every chromosome is a string of numbers that represent a position in a sequence}.\\
+
+Permutation encoding is useful for \emph{ordering problems}.
+For some types of crossover and mutation corrections must be made to leave the chromosome consistent (i.e.\ have valid sequence in it) for certain problems.
+
+\section{Genetic Algorithm: Other Selection Mechanisms}\label{sec:genetic-algorithm:-other-selection-mechanisms}
+\subsection{Elitism}\label{subsec:elitism}
+\emph{Elitism (Elitist selection)} is a strategy in genetic algorithms (in practice: evolutionary algorithms in general)
+where one or more most fit individuals (the elites) in every generation, are inserted into the next generation \emph{without undergoing any change}.
+
+This strategy usually speeds up the convergence of the algorithm.
+
+\subsection{Steady State Selection}\label{subsec:steady-state-selection}
+In every generation, few chromosomes are selected (good - with high fitness) for creating a new offspring.\\
+
+Then some (bad - with low fitness) chromosomes are removed and the new offspring is placed in their place.\\
+
+The rest of population survives to new generation.
+
+\section{Fitness Proportional Selection: Issues}\label{sec:fitness-proportional-selection:-issues}
+Fitness Proportional Selection approach has issues:
+\begin{itemize}
+	\item outstanding individuals take over the entire population quickly; this is called \emph{premature convergence}
+	\item potential solutions
+	\item when \emph{fitness values are all very close together}, there is almost \emph{no selection pressure} [= \emph{selection is almost uniformly random}] $\rightarrow$ performance increases slowly
+	\item Potential solutions:
+	\begin{itemize}
+		\item windowing (slide and subtract some value based on history)
+		\item Goldberg's sigma scaling: $f'(x) = \max\left( f(x) - (f_{avg} - 2\times\sigma_{f}), 0.0 \right)$
+		\item \emph{ranking}
+	\end{itemize}
+\end{itemize}
+
+\section{Rank Based Selection}\label{sec:rank-based-selection}
+In rank selection, the \emph{selection probability does not depend directly on the fitness}, but \emph{on the fitness rank of an individual within the population}.
+The exact fitness values themselves do not have to be available, but only a sorting of individuals according to quality.
+\begin{itemize}
+	\item Linear ranking:
+	\[ P(R_{i}) = \frac{1}{n}\left( sp - (2sp - 2)\frac{i-1}{n-1} \right)\ \ 1\leq i\leq n,\ \ 1\leq sp\leq 2\ \ \mbox{with  } P(R_{i})\geq 0,\ \ \sum_{i=1}^{n} P(R_{i}) = 1 \]
+	\begin{itemize}
+		\item[]
+		\definition{sp}{selection pressure (the degree to which the better individuals are favored: the higher the selectrion pressure, the more the better individuals are favored) which can take values between 1.0 (no selection pressure) and 2.0 (high selectrion pressure)}
+	\end{itemize}
+	\item Exponential ranking
+\end{itemize}
+
+\section{Replace worst}\label{sec:replace-worst}
+\begin{itemize}
+	\item In this scheme, the worst $k$ members of the population are selected for replacement
+	\item This can lead to rapid improvements in the average population fitness, but can also cause premature convergence
+	\begin{itemize}
+		\item it will focus on most fit individual
+	\end{itemize}
+	\item Typically used with large populations
+\end{itemize}
+
+\section{Age-Based Replacement}\label{sec:age-based-replacement}
+\begin{itemize}
+	\item Rather than look at fitness of the individual, pick the oldest (in iterations) first to replace
+	\item A FIFO queue will be needed
+\end{itemize}
+
+\section{Other Recombination Methods}\label{sec:other-recombination-methods}
+\subsection{``Cut and Crossfill''}\label{subsec:``cut-and-crossfill''}
+\begin{enumerate}[label=\arabic*.]
+    \item Pick a random crossover point
+	\item Cut both parents in two segments after this position
+	\item Copy the first segment of Parent 1 into Child 1 and the first segment of Parent 2 into Child 2
+	\item Scan Parent 2 from left to right and fill the second segment of Child 1 with values from Parent 2, skipping those that are already contained in it
+	\item Do the same for Parent 1 and Child 2
+\end{enumerate}
+
+\subsection{Multiparent Recombination}\label{subsec:multiparent-recombination}
+\begin{itemize}
+	\item The idea: recombine genes of more than 2 parents
+	\item Some strategies:
+	\begin{itemize}
+		\item Allele frequency-based: $\rho$-sexual voting
+		\item segmentation and recombination of parents-based: the diagonal crossover
+		\item Based on numerical operations on real-values alleles
+	\end{itemize}
+\end{itemize}
+
+\section{Other Recombination Options}\label{sec:other-recombination-options}
+\begin{itemize}
+	\item Integer representation:
+	\begin{itemize}
+		\item same approaches as for binary
+	\end{itemize}
+	\item Floating-point representation:
+	\begin{itemize}
+		\item simple recombination
+		\item simple arithmetic recombination
+		\item whole arithmetic recombination
+		\begin{itemize}
+			\item Child 1: $\alpha\times x + (1-\alpha)\times y$ and Child 2: $\alpha\times y + (1-\alpha)\times x$
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+
+\subsection{Integer representation}\label{subsec:integer-representation-2}
+Same approaches as for binary
+
+\subsection{Floating-point representation:}\label{subsec:floating-point-representation:}
+\begin{itemize}
+	\item Simple recombination
+	\item Simple arithmetic recombination
+	\item Whole arithmetic recombination
+	\[ \mbox{Child 1: } \alpha{}x \]
+\end{itemize}
+
+\section{Other Mutation Mechanisms}\label{sec:other-mutation-mechanisms}
+\subsection{Scramble mutation}\label{subsec:scramble-mutation}
+A subset of genes is chosen and their values randomly shuffles/scrambled.
+
+\subsection{Inversion mutation}\label{subsec:inversion-mutation}
+A subset of genes, a substring is selected and inverted.
+
+\subsection{Interchage (order changing) mutation}\label{subsec:interchage-(order-changing)-mutation}
+Randomly select two positions of the chromosome and interchange the values.
+
+\section{Selected Problems}\label{sec:selected-problems}
+\begin{center} \LARGE 8-Queens Problem \end{center}
+
+\section{Artificial Neuron (Perceptron)}\label{sec:artificial-neuron-(perceptron)}
+A (single-layer) perceptron is a model of a biological neuron.
+It is made of the following components:
+\begin{itemize}
+	\item inputs $x_{i}$ - numerical values representing information
+	\item weights $w_{i}$
+\end{itemize}
+
+\chapter{Genetic Programming}\label{ch:genetic-programming}
+\section{Traditional Programming vs $\dots$}\label{sec:traditional-programming-vs}
+Traditional Programming:
+\begin{center} Input Data + Program (Rules) = Output \end{center}
+
+$\dots$:
+\begin{center} Input Data + Output = Program (Rules) \end{center}
+
+%</2-07-2024>
+
+\end{document}

@@ -1,0 +1,141 @@
+%! Author = Len Washington III
+%! Date = 2/12/2024
+%! compiler = pdflatex
+
+% Preamble
+\documentclass[title={February 12, 2024 Notes}]{cs581notes}
+
+% Document
+\begin{document}
+
+%<*2-12-2024>
+\maketitle
+
+\chapter{Genetic Algorithm}\label{ch:genetic-algorithm}
+\section{Fitness Function}\label{sec:fitness-function}
+\begin{itemize}
+	\item Has to be clearly
+\end{itemize}
+
+\section{Evolutionary Algorithms: Speciation}\label{sec:evolutionary-algorithms:-speciation}
+\begin{itemize}
+	\item \definition{Nature}{speciation occurs when two similar reproducing beings evolve to become too dissimilar to share genetic information effectively or correctly.}
+	\begin{itemize}
+		\item they are incapable of mating to produce offspring.
+		\begin{itemize}
+			\item Example: a horse and a donkey mating to produce a mule.
+			However, in this case, the Mule is usually infertile, and so the genetic isolation of the two parent species is maintained.
+		\end{itemize}
+	\end{itemize}
+	\item \definition{Implementation}{speciation$\rightarrow$}
+\end{itemize}
+
+\chapter{Genetic Programming}\label{ch:genetic-programming}
+\begin{itemize}
+	\item Genetic programming (GP) is an automated method for creating a working computer program from a high-level problem statement of a problem.
+	\item Genetic programming starts from a high-level statement of ``what needs to be done'' and
+\end{itemize}
+
+\begin{description}
+	\item[Goal:] find a program that generates the correct solution
+	\begin{itemize}
+		\item based on input -- correct output data
+	\end{itemize}
+	\item[Genotype:]
+\end{description}
+
+\section{Preparation}\label{sec:preparation}
+\begin{itemize}
+	\item Determine the set of terminals.
+	\item Select the set of primitive functions.
+	\item Define the fitness function.
+	\item Decide on the parameters for controlling the run.
+	\item Choose the method for designating a result of the run.
+\end{itemize}
+
+\section{Problem Description}\label{sec:problem-description}
+\begin{table}[H]
+    \centering
+	\caption{}
+	\label{tab:}
+	\begin{tabular}{|*{2}{p{0.5\textwidth}|}}
+		\hline
+		Objective & Find a computer program with one input $X$ for which the output $Y$\\
+		\hline
+	\end{tabular}
+\end{table}
+
+\section{Mutation}\label{sec:mutation}
+Randomly choose :
+
+\chapter{Other (Key) Evolutionary Approaches}\label{ch:other-(key)-evolutionary-approaches}
+\section{Evolutionary Programming}\label{sec:evolutionary-programming}
+\begin{itemize}
+	\item Similar to genetic programming, but the solution is a set parameters for a predefined fixed computer program, not a generated computer program
+	\item Solution fitness is determined by how well the fixed
+\end{itemize}
+
+\section{Fuzzy Logic}\label{sec:fuzzy-logic}
+Imagine load application processing rules
+
+\begin{center}
+	If credit score good then risk is low\\
+	If credit score bad then risk is high\\
+	If credit score medium then risk is average\\
+\end{center}
+
+What does it mean: low, high, good bad?
+
+\section{Genetic Fuzzy Systems}\label{sec:genetic-fuzzy-systems}
+
+\section{Swarm Intelligence/Optimization}\label{sec:swarm-optimization}
+Swarm Intelligence (SI) is the collective behavior of decentralized, self-organized systems, natural or artificial.
+The concept is employed in work on artificial intelligence.
+
+\section{Emergence}\label{sec:emergence}
+In philosophy, systems theory, science, and art, emergence occurs when
+
+\section{Ant Colony Optimization}\label{sec:ant-colony-optimization}
+\subsection{Stigmergy}\label{subsec:stigmergy}
+Stigmergy (coined by French biologist Pierre-Paul Grasse) = interation through the environment
+
+\subsection{Pheromone Trail}\label{subsec:pheromone-trail}
+
+\subsection{TSP with Ant Colony Optimization}\label{subsec:tsp-with-ant-colony-optimization}
+\begin{enumerate}
+    \item Initialization (ants, pheromone trails)
+	\item Randomly place ants at nodes
+	\item Build tours / paths
+	\item Deposit pheromone, update trail, solution
+	\item Repeat or exit
+\end{enumerate}
+
+\subsection{Select Next Node For Each Ant}\label{subsec:select-next-node-for-each-ant}
+Each ant will pick its next destination:
+\begin{itemize}
+	\item unvisited node
+	\item choice will be based on:
+	\begin{itemize}
+		\item pheromone intensities $d_{ij}$ on all available paths
+		\item heuristic value $h_{ij}$ for all available paths (a distance between nodes)
+	\end{itemize}
+\end{itemize}
+
+\[ P(move\ i\rightarrow j) = \frac{d_{ij}^{\alpha}\times\frac{1}{h_{ij}}^{\beta}}{\sum_{k=1}^{N\ possible\ destinations} d_{ik}^{\alpha}\times\frac{1}{h_{ik}}^{\beta}} \]
+where
+\begin{description}
+	\item[$\alpha$ =]pheromone weight ``intensity''
+	\item[$\beta$ =]
+\end{description}
+
+\subsection{Update Pheromone Trail}\label{subsec:update-pheromone-trail}
+Update pheromone trail values for each edge:
+\begin{itemize}
+	\item decrease due to pheromone evaporation (evaporation rate, for example 0.5)
+	\[ *= 0.5 \]
+	\item
+\end{itemize}
+
+%</2-12-2024>
+
+\end{document}

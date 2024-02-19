@@ -4,6 +4,7 @@
 
 % Preamble
 \documentclass[title={January 10, 2024 Notes}]{cs581notes}
+\usepackage{amstex}
 
 % Packages
 
@@ -13,8 +14,10 @@
 %<*1-10-2024>
 \maketitle
 
+\chapter{Intelligent (Autonomous) Agents}\label{ch:intelligent-(autonomous)-agents}
+
 \section{Agent}\label{sec:agent}
-An agent is just something that acts (from the Latin agere, to do).\\
+An \emph{agent} is just \emph{something that acts} (from the Latin agere, to do).\\
 
 Of course, we would prefer ``acting'' to be:
 \begin{itemize}
@@ -25,48 +28,96 @@ Of course, we would prefer ``acting'' to be:
 \end{itemize}
 
 \section{Rational Agent}\label{sec:rational-agent}
-A rational agent is one that acts to achieve the best outcome, or when there is uncertainty, the best expected outcome%
+A \emph{rational agent} is one that acts \emph{to achieve the best outcome}, or when there is uncertainty, \emph{the best expected outcome}%
 \footnote{no worries, we will make it a little less vague soon}.
 
 \section{AI: Constructing Agents}\label{sec:ai:-constructing-agents}
-You can say that: AI is focused on the study and construction of agents that do the right thing.
+You can say that: AI is focused on the \emph{study and construction of agents that do the right thing}.
 
 \section{Percepts and Percept Sequences}\label{sec:percepts-and-percept-sequences}
-Percept -- content/information that agent's sensors are perceiving / capturing currently\\
+\definition{Percept}{content/information that agent's sensors are perceiving / capturing \emph{currently}}\\
 
-Percept Sequence -- a complete history of everything that agent has ever perceived
+\definition{Percept Sequence}{a \emph{complete history} of \emph{everything that agent has ever perceived}}
 \begin{itemize}
 	\item any practical issues that you can see here?
 	\item what can a percept sequence be used for?
 \end{itemize}
 
+\section{Percepts, Knowledge, Actions, States}\label{sec:percepts-knowledge-actions-states}
+\begin{itemize}
+	\item Agent's choice of action / decision at any given moment:
+	\begin{itemize}
+		\item CAN depend on:
+		\begin{itemize}
+			\item built-in \emph{knowledge}
+			\item entire \emph{percept sequence}
+		\end{itemize}
+		\item CANNOT depend anything it hasn't perceived
+	\end{itemize}
+	\item Agent's action CAN change the \emph{environment state}
+\end{itemize}%
+\begin{center}Knowledge is power, right?\end{center}
+
 \section{Agent Function/Program}\label{sec:agent-function/program}
 Specifying an action choice for every possible percept sequence would define an agent
 \begin{itemize}
-	\item Action $<$-$>$ percept sequence mapping IS the agent function.
-	\item Agent function describes agent behavior.
-	\item Agent function is an abstract concept.
-	\item Agent program implements agent function.
+	\item Action $<$-$>$ percept sequence \emph{mapping} IS the agent \emph{function}.
+	\item Agent \emph{function} describes agent \emph{behavior}.
+	\item Agent \emph{function} is an \emph{abstract concept}.
+	\item Agent \emph{program} implements agent \emph{function}.
 \end{itemize}
 
+\section{Vacuum Cleaner Agent Example}\label{sec:vacuum-cleaner-agent-example}
+\begin{algorithm}[H]
+	\caption{Vacuum Cleaner Agent Example}\label{alg:table-driven-agent}
+	\begin{algorithmic}[1]
+	\Function{Table-Driven-Agent}{$percept$} \Returns an action
+		\State \textbf{percepts:} a sequence, initially empty
+		\State $table$, a table of actions, indexed by percept sequences, initially fully specified
+		\State append $percept$ to the end of $percepts$
+		\State $action\gets\Call{Lookup}{percepts,\ table}$
+		\State \Return $action$
+	\EndFunction
+	\State
+	\Function{Reflex-Vacuum-Agent}{[location,\ status]} \Returns an action
+		\If{$status=Dirty$} \Return $Suck$
+		\ElsIf{$location=A$} \Return $Right$
+		\ElsIf{$location=B$} \Return $Left$
+		\EndIf
+	\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
 \section{Actions Have Consequences}\label{sec:actions-have-consequences}
-An agent can act upon its environment, but how do we know if the end result is ``right''?
-After all, actions have consequences: either good or bad.
-Recall that agent actions change environment state!
-If state changes are desirable, and agent performs well.
-Performance measure evaluates state changes.
+\begin{itemize}
+	\item An agent can act upon its environment, but \emph{how do we know if the end result is ``right''}?
+	\item After all, \emph{actions have consequences}: either good or bad.
+	\item Recall that \emph{agent actions change environment state}!
+	\item If state changes are desirable, and agent performs well.
+	\item Performance measure evaluates state changes.
+\end{itemize}
+
+\section{Performance Measure}\label{sec:performance-measure}
+\subsection{A Tip}\label{subsec:performance-measure:-a-tip}
+It is better to \emph{design performance measures according to what one actually wants to be achieved \underline{in the environment}},
+rather than according to how one thinks the agent should behave.
+
+\subsection{A Warning}\label{subsec:performance-measure:-a-warning}
+If it is difficult to specify the performance measure, agents may end up optimizing a wrong objective.
+Handle uncertainty well in such cases.
 
 \section{Rationality}\label{sec:rationality}
 Rational decisions at the moment depend on:
 \begin{itemize}
-	\item The performance measure that defines success criteria
-	\item The agent's prior knowledge of the environment
-	\item The actions that the agent can perform
-	\item The agent's percept sequence so far
+	\item The \emph{performance measure} that defines success criteria
+	\item The agent's \emph{prior knowledge} of the environment
+	\item The \emph{actions} that the agent can perform
+	\item The agent's \emph{percept sequence} so far
 \end{itemize}
 
 \section{Rational Agent}\label{sec:rational-agent-2}
-For each possible percept sequence, a rational agent should select an action that is expected to maximize
+\emph{For each possible percept sequence}, a rational agent should \emph{select an action that is \underline{expected} to
+maximize its performance measure}, given the \emph{evidence provided by the percept sequence and} whatever \emph{built-in knowledge} the agent has.
 
 \section{Rationality in Reality}\label{sec:rationality-in-reality}
 \begin{itemize}
@@ -75,7 +126,7 @@ For each possible percept sequence, a rational agent should select an action tha
 	That would be perfection.
 	\item Rationality maximizes what is EXPECTED to happen.
 	\item Perfection maximizes what WILL happen.
-	\item Performance can be improved by information gathering and learning.
+	\item Performance can be improved by \emph{information gathering and learning}.
 \end{itemize}
 
 \section{Designing the Agent for the Task}\label{sec:designing-the-agent-for-the-task}

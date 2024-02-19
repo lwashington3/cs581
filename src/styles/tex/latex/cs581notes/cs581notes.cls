@@ -8,9 +8,16 @@
 \LoadClass[12pt]{report}
 
 \RequirePackage{cs581}
+\RequirePackage{enumitem}
 
 \renewcommand{\maketitle}{\begin{center}\LARGE \textbf{\cs@title}\end{center}}
 %\renewcommand{\maketitle}{\begin{center}\Large \textbf{\cs@date~Notes}\end{center}}
+
+\let\oldemph\emph
+\renewcommand{\emph}[1]{\textcolor{red}{#1}}
+%\renewcommad{\arry}{1.3}
+\newcommand{\header}[1]{\textcolor{white}{#1}}
+
 
 \setlength{\parindent}{0pt}
 
