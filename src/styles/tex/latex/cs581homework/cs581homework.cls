@@ -72,7 +72,7 @@
 %	{#2}% Name/Label
 %}
 
-\newcommand{\problem}[2][]{\section{Problem #2 [#1 pts]:}\label{prb:#2}}
+\newcommand{\problem}[2][]{\section*{Problem #2 [#1 pts]:}\label{prb:#2}}
 
 \newcommand{\subproblem}{%
 	\pdfbookmark[4]% Level
