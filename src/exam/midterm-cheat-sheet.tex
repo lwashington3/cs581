@@ -1,0 +1,133 @@
+%! Author = Len Washington III
+%! Date = 2/20/24
+
+% Preamble
+\documentclass[exam={Midterm}]{cs581exam}
+
+\setcounter{section}{1}
+
+% Document
+\begin{document}
+
+\section{Intelligent Agents}\label{sec:intelligent-agents}
+\subsection{Agents and Environments}\label{subsec:2.1}
+\subsection{The Concept of Rationality}\label{subsec:2.2}
+\subsection{The Nature of Environments}\label{subsec:2.3}
+Be comfortable with the PEAS description and environment properties.
+\subsection{The Structure of Agents}\label{subsec:2.4}
+You may be asked to pick the best agent type for some problem and justify
+your answer.
+\subsection{Summary}\label{subsec:2-summary}
+Go through the chapter summary.
+
+\section{Solving Problems by Search}\label{sec:solving-problems-by-search}
+\subsection{Problem-Solving Agents}\label{subsec:3.1}
+Be comfortable defining a search problem.
+\subsection{Example Problems}\label{subsec:3.2}
+\subsection{Search Algorithms \& Uniform Search Strategies}\label{subsec:3.3-4}
+Ignore sections 3.4.4 and 3.4.5 for the exam.
+\setcounter{subsection}{4}%
+\subsection{Informed (Heuristic) Search Strategies}\label{subsec:3.5}
+You may be asked to solve a search problem by hand.
+\subsection{Heuristic Functions}\label{subsec:3.6}
+\subsection{Summary}\label{subsec:3-summary}
+Go through the chapter summary. FOCUS ON A* algorithm
+
+\section{Search in Complex Environments}\label{sec:search-in-complex-environments}
+\subsection{Local Search and Optimization Problems}\label{subsec:local-search-and-optimization-problems}
+\subsubsection{Hill-climbing search}\label{subsubsec:4.1.1}
+\begin{algorithm}[H]
+	\caption{Hill-climbing search}\label{alg:hill-climbing}
+	\begin{algorithmic}[1]
+	\Function{Hill-Climbing}{$problem$} \Returns a state that is a local maximum
+		\State $current\gets problem.INITIAL$
+		\While{true}
+			\State $neighbor\gets$ a highest-valued successor state of $current$
+			\If{$\Call{Value}{neighbor}\leq\Call{Value}{current}$}
+				\Return $current$
+			\EndIf
+			\State $current\gets neighbor$
+		\EndWhile
+	\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Simulated Annealing}\label{subsubsec:4.1.2}
+\begin{algorithm}[H]
+	\caption{Simulated Annealing}\label{alg:simulated-annealing}
+	\begin{algorithmic}[1]
+	\Function{Simulated-Annealing}{$problem$, $Schedule$} \Returns a solution state
+		\State $current\gets problem.INITIAL$
+		\For{$t=1$ to $\infty$}
+			\State $T\gets\Call{Schedule}{t}$
+			\If{$T == 0$}
+				\Return $current$
+			\EndIf
+			\State $next\gets$ a randomly selected successor of $current$
+			\State $\Delta E\gets\Call{Value}{current} - \Call{Value}{next}$
+			\If{$\Delta E > 0$}
+				$current\gets next$
+			\Else\
+				$current\gets next$ only with probability $e^{\Delta E/T}$
+			\EndIf
+		\EndFor
+	\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+\setcounter{subsection}{3}%
+\subsubsection{Evolutionary algorithms}\label{subsubsec:4.1.4}
+\begin{algorithm}[H]
+	\caption{Genetic Algorithm Pseudocode}\label{alg:genetric-algorithm}
+	\begin{algorithmic}[1]
+		\Function{Genetric-Algorithm}{$population,\ fitness$} \Returns an individual
+		\Repeat
+			\State $weights\gets\Call{Weighted-By}{population, fitness}$
+			\State $population2\gets$ empty list
+			\For{$i=1$ to $\Call{Size}{population}$}
+				\State $parent1,\ parent2\gets\Call{Weighted-Random-Choices}{population, weights, 2}$
+				\State $child\gets\Call{Reproduce}{parent1,\ parent2}$
+				\If{small random probability}
+					$child\gets\Call{Mutate}{child}$
+				\EndIf
+				\State add $child$ to $population2$
+			\EndFor
+			\State $population\gets population2$
+		\Until{some individual is fit enough, or enough time has elapsed}
+		\State \Return the best individual in $population$, according to $fitness$
+		\EndFunction
+		\Function{Reproduce}{$parent1,parent2$} \Returns an individual
+			\State $n\gets\Call{Length}{parent1}$
+			\State $c\gets$ random number from 1 to $n$
+			\State \Return Append(\Call{Substring}{$parent1$, 1, $c$}, \Call{Substring}{$parent2$, $c+1$, $n$})
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+$\dots$and everything related to Evolutionary algorithms that I covered
+IGNORE TABU SEARCH
+in class (especially: EVERYTHING about GENETIC ALGORITHM)
+
+
+\section{Adversarial Search and Games}\label{sec:adversarial-search-and-games}
+\subsection{Game Theory}\label{subsec:5.1}
+\subsection{Optimal Decision in Games}\label{subsec:5.2}
+You may be asked to solve an adversarial problem by hand using Min-Max
+and alpha-beta pruning. Ignore section 5.2.2.
+\subsection{Summary}\label{subsec:5-summary}
+Go through the chapter summary.
+
+\section{Constraint Satisfaction Problems}\label{sec:constraint-satisfaction-problems}
+\subsection{Defining CSPs}\label{subsec:6.1}
+You may be asked to formally define a constraint satisfaction problem.
+\subsection{Constraint Propagation: Inference in CSPs}\label{subsec:6.2}
+Ignore sections 6.2.4 and 6.2.5.
+\subsection{Backtracking Search for CSPs}\label{subsec:6.3}
+Ignore sections 6.3.3 and 6.3.4.
+\subsection{Summary}\label{subsec:6-summary}
+Go through the chapter summary.
+
+\section{Evolutionary Algorithms}\label{sec:evolutionary-algorithms}
+
+\section{Ant Colony Optimization}\label{sec:ant-colony-optimization}
+
+\end{document}
