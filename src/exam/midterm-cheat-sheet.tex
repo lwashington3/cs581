@@ -26,12 +26,36 @@
 
 \section{Intelligent Agents}\label{sec:intelligent-agents}
 \subsection{Agents and Environments}\label{subsec:2.1}
+\definition{Percept}{content/information that agent's sensors are perceiving / capturing currently}.
+\definition{Percept Sequence}{a complete history of everything that agent has ever perceived}.
+Action $<$-$>$ percept sequence \emph{mapping} IS the agent \emph{function}.
+Agent \emph{function} describes agent \emph{behavior}.
+Agent \emph{function} is an \emph{abstract concept}.
+Agent \emph{program} implements agent \emph{function}.
+
 \subsection{The Concept of Rationality}\label{subsec:2.2}
+A \emph{rational agent} is one that acts to achieve the best outcome, or when there is uncertainty, the best expected outcome.
+Rationality maximizes what is EXPECTED to happen.
+Perfection maximizes what WILL happen.
+%
 \subsection{The Nature of Environments}\label{subsec:2.3}
-Be comfortable with the PEAS description and environment properties.
+PEAS -- \Peas{}erformance measure;
+\pEas{}nvironment in which the agent will operate;
+\peAs{}ctuators that the agent will use to affect the environment;
+\peaS{}ensors.
+\subsubsection{Properties}\label{subsubsec:properties}
+Fully vs partially observable.
+Single agent vs multiagent (comp vs. co-op).
+Deterministic vs. nondeterministic (stochastic/random).
+Episode vs. sequential.
+Static vs. dynamic.
+Discrete vs. continuous.
+Known vs. unknown (to the agent).
+%
 \subsection{The Structure of Agents}\label{subsec:2.4}
 You may be asked to pick the best agent type for some problem and justify
 your answer.
+%
 \subsection{Summary}\label{subsec:2-summary}
 Go through the chapter summary.
 
@@ -168,6 +192,8 @@ Converges to a global optimum; in practice, it can give excellent results.
 
 \setcounter{subsection}{3}%
 \subsubsection{Evolutionary algorithms}\label{subsubsec:4.1.4}
+\definition{Nature}{speciation occurs when two similar reproducing beings evolve to become too dissimilar to share genetic information effectively or correctly}.
+\definition{Implementation}{speciation$\rightarrow$some mathematical function that established the similarity between two candidate solutions in the population}
 \begin{algorithm}[H]
 	\caption{Genetic Algorithm Pseudocode}\label{alg:genetric-algorithm}
 	\begin{algorithmic}[1]
@@ -198,6 +224,12 @@ Converges to a global optimum; in practice, it can give excellent results.
 $\dots$and everything related to Evolutionary algorithms that I covered in class (especially: EVERYTHING about GENETIC ALGORITHM)\\
 IGNORE TABU SEARCH
 
+\subsubsection{Genetic Programming (GP)}\label{subsubsec:genetic-programming} % TODO: Agent States, Environment, ..., Game Theory (MinMax)
+GP is an automated method for creating a working computer program from a high-level problem statement of a problem.
+It starts from a high-level statement of ``what needs to be done'' and automatically creates a computer program to solve the problem.
+Genotypes are trees, whereas the phenotypes (what can be seen) is the evaluation score.
+Mutation occurs by picking a node for random mutation (by generating a new random subtree) and replacing the node with the root of the new subtree.
+Crossover occurs by swapping the values of two nodes, without changing the positions or subtrees of those nodes (can be thought of as flipping the sign in an operation node).
 
 \section{Adversarial Search and Games}\label{sec:adversarial-search-and-games}
 \subsection{Game Theory}\label{subsec:5.1}

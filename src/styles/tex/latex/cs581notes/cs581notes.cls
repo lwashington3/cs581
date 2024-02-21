@@ -19,11 +19,6 @@
 
 \setlength{\parindent}{0pt}
 
-\newcommand{\Peas}{P}
-\newcommand{\pEas}{E}
-\newcommand{\peAs}{A}
-\newcommand{\peaS}{S}
-
 \RequirePackage{titlesec}
 
 \titleformat{\chapter}
