@@ -31,6 +31,8 @@
 \setlength{\verticalmargin}{1em}
 \newlength{\horizontalmargin}
 \setlength{\horizontalmargin}{1em}
+\setlength{\parskip}{0cm}
+
 \geometry{top=\verticalmargin, bottom=\verticalmargin, left=\horizontalmargin, right=\horizontalmargin}
 
 \RequirePackage{enumitem}
@@ -45,6 +47,8 @@
 	label=\textbf{(\alph{problemsii})},
 	leftmargin=30pt,
 }
+
+\linespread{0.9}
 
 \RequirePackage{titlesec}
 \titleformat{\section}[runin]

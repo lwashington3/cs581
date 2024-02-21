@@ -51,10 +51,32 @@ Episode vs. sequential.
 Static vs. dynamic.
 Discrete vs. continuous.
 Known vs. unknown (to the agent).
+
+Deterministic means that the next state is \emph{completely determined} by the current state and agent action
+whereas nondeterministic is \emph{NOT completely determined} by the current state and agent action.
+Deterministic AND fully observable environment means there's no uncertainty, deterministic AND partially observable \textit{may} appear nondeterministic.
+
+Episodic means that agent experience is divided into individual, \emph{independent}, and atomic episodes (one percept per action),
+which means the next action is not a function of the previous function and doesn't need to be remembered.
+Sequential means that the current decision \emph{COULD} affect all future decisions/actions.
+
+Static environments CANNOT change while the agent is taking its time deciding while dynamic environments CAN change and speed if important.
+
+Agents in known environments know all outcomes (and probabilities) to its actions, essentially, the agent knows how the environment works.
+An unknown environment means the agent doesn't know all the details about the inner workings of the environment and some \emph{learning and exploration} can be necessary.
 %
 \subsection{The Structure of Agents}\label{subsec:2.4}
-You may be asked to pick the best agent type for some problem and justify
-your answer.
+Agent = Architecture + Program
+Simple-reflex agents use condition-action rules;
+Model-based reflex agents keep track of the unobserved parts of the environment by maintaining an internal state;
+Goal-based reflex agents maintain the model of the world and goals to select decisions (that lead to the goal);
+Utility-based reflex agents maintain the model of the world and utility function to select PREFERRED decisions (that lead to the best expected utility: \Call{AVG}{EU*$p$}).
+
+\subsubsection{State and Transition Representations}\label{subsubsec:state-and-transition-representations}
+Atomic state representations have NO internal structure;
+Factored state representation includes fixed attributes (which can have values);
+and Structured states include objects and their relationships.
+
 %
 \subsection{Summary}\label{subsec:2-summary}
 Go through the chapter summary.
@@ -64,27 +86,8 @@ Go through the chapter summary.
 Be comfortable defining a search problem.
 \subsection{Example Problems}\label{subsec:3.2}
 \subsection{Search Algorithms \& Uniform Search Strategies}\label{subsec:3.3-4}
-%\begin{table}[H]
-%    \centering
-%    \begin{threeparttable}
-%		\caption{Uniformed Search Algorithms}
-%		\label{tab:uniformed-search-algorithms}
-%		\begin{tabular}{|l*{6}{P{0.04\textwidth}}|}
-%			\hline
-%			Criterion & Breadth-First & Uniform Cost & Depth-First & Depth-Limited & Iterative Deepening & Bidirectional (if applicable)\\
-%			\hline
-%			Complete? & Yes & Yes & No & No & Yes & Yes\\
-%			\hline
-%			Optimal cost? & Yes & Yes & No & No & Yes & Yes\\
-%			\hline
-%			Time & $O(b^{d})$ & $O(b^{1+C\lfloor C*/\epsilon\rfloor})$
-%		\end{tabular}
-%		\begin{tablenotes}
-%			\small
-%			\item
-%		\end{tablenotes}
-%	\end{threeparttable}
-%\end{table}
+Unlike A*, Greedy Best First Search is not always going to find the optimal solution, even with admissible heuristics.
+It is complete, \emph{not optimal}, but often efficient.
 
 Ignore sections 3.4.4 and 3.4.5 for the exam.
 \setcounter{subsection}{4}%
@@ -97,44 +100,13 @@ You may be asked to solve a search problem by hand.
 Straight-line heuristics is \emph{admissible}: it never overestimates the cost.
 An \emph{admissible heuristics} is guaranteed to give you the optimal solution.
 Every \emph{consistent} heuristics is \emph{admissible}, but not the other way around.
-A dominating heuristic is a heuristic that estimates closer to the actual cost than another heuristic.
+A \emph{dominating heuristic} is a heuristic that estimates closer to the actual cost than another heuristic,
+with the offset that dominating heuristics are more costly to compute.
 
 \subsection{A*}\label{subsec:a*}
 The evaluation function for A* is $f(n) = g(\mbox{State}_{n}) + h(\mbox{State}_{n})$ where $g(n)$ is the path cost from the initial node to node $n$,
 and $h(n)$ is the \emph{estimated cost} of the best path that continues from node $n$ to a goal node.
 A node $n$ with minimum (or maximum if necessary) $f(n)$ should be chosen for expansion.
-\begin{algorithm}[H]
-	\caption{Best-First Search: A* Pseudocode}\label{alg:a*}
-	\begin{algorithmic}[1]
-		\Function{Best-First-Search}{$problem, f$} \Returns a solution node or \textit{failure}
-			\State $\textcolor{nodeblue}{node}\gets\Call{Node}{State=problem.Initial}$
-			\State $\textcolor{frontiergreen}{frontier}\gets$ a priority queue ordered by $f$, with $\textcolor{nodeblue}{node}$ as an element
-			\State $\textcolor{reachedpurple}{reached}\gets$ a lookup table, with one entry with key $problem.\Call{Initial}{}$ and value $\textcolor{nodeblue}{node}$
-			\While{\Not $\Call{Is-Empty}{\textcolor{frontiergreen}{frontier}}$}
-				\State $\textcolor{nodeblue}{node}\gets\Call{Pop}{\textcolor{frontiergreen}{frontier}}$
-				\If{$problem.\Call{Is-Goal}{\textcolor{nodeblue}{node}.State}$}
-					\Return $\textcolor{nodeblue}{node}$
-				\EndIf
-				\ForAll{$\textcolor{childred}{child}$ \In $\Call{Expand}{problem,\ \textcolor{nodeblue}{node}}$}
-					\State $\textcolor{stateorange}{s}\gets \textcolor{childred}{child}.\Call{State}{}$
-					\If{$\textcolor{stateorange}{s}$ \Not \In $\textcolor{reachedpurple}{reached}$ or $child.\Call{Path-Cost}{} < \textcolor{reachedpurple}{reached}[\textcolor{stateorange}{s}].\Call{Path-Cost}{}$}
-						\State $\textcolor{reachedpurple}{reached}[\textcolor{stateorange}{s}]\gets child$
-						\State $\textcolor{childred}{child}$ to $\textcolor{frontiergreen}{frontier}$
-					\EndIf
-				\EndFor
-			\EndWhile
-			\State \Return $failure$
-		\EndFunction
-		\Function{Expand}{$problem, node$} yields nodes
-			\State $s\gets node.\Call{State}{}$
-			\ForAll{$action$ \In $problem.\Call{Actions}{s}$}
-				\State $s'\gets problem.\Call{Result}{s, action}$
-				\State \makebox{$cost\gets node.\Call{Path-Cost}{} + problem.\Call{Action{-}Cost}{s, action, s'}$}
-				\State yield $\Call{Node}{State=s', Parent=node, Action=action, Path-Cost=cost}$
-			\EndFor
-		\EndFunction
-	\end{algorithmic}
-\end{algorithm}
 \subsection{Summary}\label{subsec:3-summary}
 Go through the chapter summary. FOCUS ON A* algorithm
 
@@ -149,29 +121,72 @@ The performance can be measured using \emph{completeness} (guaranteed to find a 
 \subsubsection{Hill-climbing search}\label{subsubsec:4.1.1}
 The most primitive informed search approach; it is a naive greedy algorithm and the objective function is the value of the next state.
 The agent can get stuck on peaks (local maxima), ridges (sequences of peaks), and plateaus (areas where the evaluation function has the same value).
-\begin{algorithm}[H]
-	\caption{Hill-climbing search}\label{alg:hill-climbing}
-	\begin{algorithmic}[1]
-	\Function{Hill-Climbing}{$problem$} \Returns a state that is a local maximum
-		\State $current\gets problem.INITIAL$
-		\While{true}
-			\State $neighbor\gets$ a highest-valued successor state of $current$
-			\If{$\Call{Value}{neighbor}\leq\Call{Value}{current}$}
-				\Return $current$
-			\EndIf
-			\State $current\gets neighbor$
-		\EndWhile
-	\EndFunction
-	\end{algorithmic}
-\end{algorithm}
 
 \subsubsection{Simulated Annealing}\label{subsubsec:4.1.2}
 Accepts a move if it improves the objective value, and accepts some ``bad'' moves given some probability depending on the current objective value.
 Converges to a global optimum; in practice, it can give excellent results.
+
+\setcounter{subsection}{3}%
+\subsubsection{Evolutionary algorithms}\label{subsubsec:4.1.4}
+\definition{Nature}{speciation occurs when two similar reproducing beings evolve to become too dissimilar to share genetic information effectively or correctly}.
+\definition{Implementation}{speciation$\rightarrow$some mathematical function that established the similarity between two candidate solutions in the population}
+
+$\dots$and everything related to Evolutionary algorithms that I covered in class (especially: EVERYTHING about GENETIC ALGORITHM)\\
+IGNORE TABU SEARCH
+
+\subsubsection{Genetic Programming (GP)}\label{subsubsec:genetic-programming}
+GP is an automated method for creating a working computer program from a high-level problem statement of a problem.
+It starts from a high-level statement of ``what needs to be done'' and automatically creates a computer program to solve the problem.
+Genotypes are trees, whereas the phenotypes (what can be seen) is the evaluation score.
+Mutation occurs by picking a node for random mutation (by generating a new random subtree) and replacing the node with the root of the new subtree.
+Crossover occurs by swapping the values of two nodes, without changing the positions or subtrees of those nodes (can be thought of as flipping the sign in an operation node).
+
+\section{Adversarial Search and Games}\label{sec:adversarial-search-and-games}
+\subsection{Game Theory}\label{subsec:5.1}
+I don't know what move my opponent will choose, but I am going to \emph{ASSUME} that it is going to be the best / optimal option.
+
+\subsection{Optimal Decision in Games}\label{subsec:5.2}
+\[ \Call{MinMax}{n} = \left\{ \begin{array}{c}
+	\Call{Utility}{n, MAX},if\ \Call{Is-Terminal}{n}\\
+	\max_{a\in\Call{Actions}{n}}\Call{MinMax}{Result(n,a)},\\if\ \Call{To-Move}{s} == MAX\\\\
+	\min_{a\in\Call{Actions}{n}}\Call{MinMax}{Result(n,a)},\\if\ \Call{To-Move}{s} == MIN\\
+\end{array} \right. \]
+\subsection{Summary}\label{subsec:5-summary}
+Go through the chapter summary.
+
+\section{Constraint Satisfaction Problems}\label{sec:constraint-satisfaction-problems}
+\subsection{Defining CSPs}\label{subsec:6.1}
+You may be asked to formally define a constraint satisfaction problem.
+\subsection{Constraint Propagation: Inference in CSPs}\label{subsec:6.2}
+Minimum-remaining-values (MRV) heuristic: choose the variable with the ``fewest'' legal values
+%
+\subsection{Backtracking Search for CSPs}\label{subsec:6.3}
+Ignore sections 6.3.3 and 6.3.4.
+\subsection{Summary}\label{subsec:6-summary}
+Go through the chapter summary.
+
+\section{Ant Colony Optimization}\label{sec:ant-colony-optimization}
+
+\definition{Stigmergy}{two individuals interact \emph{indirectly} when one of them modifies the environment and the other responds to the new environment at a later time}.
+
+\subsection{Pheromone Trail}\label{subsec:pheromone-trail}
+Individual ants deposit pheromones while travelling between nest and food source.
+Pheromone trail \emph{gradually evaporates over time}.
+Pheromone trail strength accumulates with multiple ants using the path.
+%
+\subsection{Artificial Ant Properties}\label{subsec:artificial-ant-properties}
+\definition{Memory}{the list of visited places (nodes in the graph)}.
+\definition{Best fitness}{the lowest cost total distance traveled between places}
+\definition{Action}{select next location (node) to visit (and leave pheromones along the way)}
+\definition{$\alpha$}{pheromone intensity weight}
+\definition{$\beta$}{heuristic weight}
+
+\[ P(move\ i\rightarrow j) = \frac{d_{ij}^{\alpha}\times\frac{1}{h_{ij}}^{\beta}}{\sum_{k=1}^{N\ possible\ destinations} d_{ik}^{\alpha}\times\frac{1}{h_{ik}}^{\beta}} \]
+
 \begin{algorithm}[H]
 	\caption{Simulated Annealing}\label{alg:simulated-annealing}
 	\begin{algorithmic}[1]
-	\Function{Simulated-Annealing}{$problem$, $Schedule$} \Returns a solution state
+		\Function{Simulated-Annealing}{$problem$, $Schedule$} \Returns a solution state
 		\State $current\gets problem.INITIAL$
 		\For{$t=1$ to $\infty$}
 			\State $T\gets\Call{Schedule}{t}$
@@ -183,17 +198,62 @@ Converges to a global optimum; in practice, it can give excellent results.
 			\If{$\Delta E > 0$}
 				$current\gets next$
 			\Else\
-				$current\gets next$ only with probability $e^{\Delta E/T}$
+			$current\gets next$ only with probability $e^{\Delta E/T}$
 			\EndIf
 		\EndFor
-	\EndFunction
+		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
-
-\setcounter{subsection}{3}%
-\subsubsection{Evolutionary algorithms}\label{subsubsec:4.1.4}
-\definition{Nature}{speciation occurs when two similar reproducing beings evolve to become too dissimilar to share genetic information effectively or correctly}.
-\definition{Implementation}{speciation$\rightarrow$some mathematical function that established the similarity between two candidate solutions in the population}
+%
+\begin{algorithm}[H]
+	\caption{Hill-climbing search}\label{alg:hill-climbing}
+	\begin{algorithmic}[1]
+		\Function{Hill-Climbing}{$problem$} \Returns a state that is a local maximum
+		\State $current\gets problem.INITIAL$
+		\While{true}
+			\State $neighbor\gets$ a highest-valued successor state of $current$
+			\If{$\Call{Value}{neighbor}\leq\Call{Value}{current}$}
+				\Return $current$
+			\EndIf
+			\State $current\gets neighbor$
+		\EndWhile
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+%
+\begin{algorithm}[H]
+	\caption{Best-First Search: A* Pseudocode}\label{alg:a*}
+	\begin{algorithmic}[1]
+		\Function{Best-First-Search}{$problem, f$} \Returns a solution node or \textit{failure}
+		\State $\textcolor{nodeblue}{node}\gets\Call{Node}{State=problem.Initial}$
+		\State $\textcolor{frontiergreen}{frontier}\gets$ a priority queue ordered by $f$, with $\textcolor{nodeblue}{node}$ as an element
+		\State $\textcolor{reachedpurple}{reached}\gets$ a lookup table, with one entry with key $problem.\Call{Initial}{}$ and value $\textcolor{nodeblue}{node}$
+		\While{\Not $\Call{Is-Empty}{\textcolor{frontiergreen}{frontier}}$}
+			\State $\textcolor{nodeblue}{node}\gets\Call{Pop}{\textcolor{frontiergreen}{frontier}}$
+			\If{$problem.\Call{Is-Goal}{\textcolor{nodeblue}{node}.State}$}
+				\Return $\textcolor{nodeblue}{node}$
+			\EndIf
+			\ForAll{$\textcolor{childred}{child}$ \In $\Call{Expand}{problem,\ \textcolor{nodeblue}{node}}$}
+				\State $\textcolor{stateorange}{s}\gets \textcolor{childred}{child}.\Call{State}{}$
+				\If{$\textcolor{stateorange}{s}$ \Not \In $\textcolor{reachedpurple}{reached}$ or $child.\Call{Path-Cost}{} < \textcolor{reachedpurple}{reached}[\textcolor{stateorange}{s}].\Call{Path-Cost}{}$}
+					\State $\textcolor{reachedpurple}{reached}[\textcolor{stateorange}{s}]\gets child$
+					\State $\textcolor{childred}{child}$ to $\textcolor{frontiergreen}{frontier}$
+				\EndIf
+			\EndFor
+		\EndWhile
+		\State \Return $failure$
+		\EndFunction
+		\Function{Expand}{$problem, node$} yields nodes
+		\State $s\gets node.\Call{State}{}$
+		\ForAll{$action$ \In $problem.\Call{Actions}{s}$}
+			\State $s'\gets problem.\Call{Result}{s, action}$
+			\State \makebox{$cost\gets node.\Call{Path-Cost}{} + problem.\Call{Action{-}Cost}{s, action, s'}$}
+			\State yield $\Call{Node}{State=s', Parent=node, Action=action, Path-Cost=cost}$
+		\EndFor
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+%
 \begin{algorithm}[H]
 	\caption{Genetic Algorithm Pseudocode}\label{alg:genetric-algorithm}
 	\begin{algorithmic}[1]
@@ -214,41 +274,11 @@ Converges to a global optimum; in practice, it can give excellent results.
 		\State \Return the best individual in $population$, according to $fitness$
 		\EndFunction
 		\Function{Reproduce}{$parent1,parent2$} \Returns an individual
-			\State $n\gets\Call{Length}{parent1}$
-			\State $c\gets$ random number from 1 to $n$
-			\State \Return Append(\Call{Substring}{$parent1$, 1, $c$}, \Call{Substring}{$parent2$, $c+1$, $n$})
+		\State $n\gets\Call{Length}{parent1}$
+		\State $c\gets$ random number from 1 to $n$
+		\State \Return Append(\Call{Substring}{$parent1$, 1, $c$}, \Call{Substring}{$parent2$, $c+1$, $n$})
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
-
-$\dots$and everything related to Evolutionary algorithms that I covered in class (especially: EVERYTHING about GENETIC ALGORITHM)\\
-IGNORE TABU SEARCH
-
-\subsubsection{Genetic Programming (GP)}\label{subsubsec:genetic-programming} % TODO: Agent States, Environment, ..., Game Theory (MinMax)
-GP is an automated method for creating a working computer program from a high-level problem statement of a problem.
-It starts from a high-level statement of ``what needs to be done'' and automatically creates a computer program to solve the problem.
-Genotypes are trees, whereas the phenotypes (what can be seen) is the evaluation score.
-Mutation occurs by picking a node for random mutation (by generating a new random subtree) and replacing the node with the root of the new subtree.
-Crossover occurs by swapping the values of two nodes, without changing the positions or subtrees of those nodes (can be thought of as flipping the sign in an operation node).
-
-\section{Adversarial Search and Games}\label{sec:adversarial-search-and-games}
-\subsection{Game Theory}\label{subsec:5.1}
-\subsection{Optimal Decision in Games}\label{subsec:5.2}
-You may be asked to solve an adversarial problem by hand using Min-Max
-and alpha-beta pruning. Ignore section 5.2.2.
-\subsection{Summary}\label{subsec:5-summary}
-Go through the chapter summary.
-
-\section{Constraint Satisfaction Problems}\label{sec:constraint-satisfaction-problems}
-\subsection{Defining CSPs}\label{subsec:6.1}
-You may be asked to formally define a constraint satisfaction problem.
-\subsection{Constraint Propagation: Inference in CSPs}\label{subsec:6.2}
-Ignore sections 6.2.4 and 6.2.5.
-\subsection{Backtracking Search for CSPs}\label{subsec:6.3}
-Ignore sections 6.3.3 and 6.3.4.
-\subsection{Summary}\label{subsec:6-summary}
-Go through the chapter summary.
-
-\section{Ant Colony Optimization}\label{sec:ant-colony-optimization}
 
 \end{document}
