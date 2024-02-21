@@ -2,7 +2,22 @@
 %! Date = 2/20/24
 
 % Preamble
-\documentclass[exam={Midterm}]{cs581exam}
+\documentclass[exam={Midterm},color=true]{cs581exam}
+
+\ifcolor
+\definecolor{nodeblue}{HTML}{00b0f0}
+\definecolor{frontiergreen}{HTML}{00b050}
+\definecolor{reachedpurple}{HTML}{8d5ab3}
+\definecolor{childred}{HTML}{c00000}
+\definecolor{stateorange}{HTML}{ffc000}
+\else
+\definecolor{nodeblue}{HTML}{000000}
+\definecolor{frontiergreen}{HTML}{000000}
+\definecolor{reachedpurple}{HTML}{000000}
+\definecolor{childred}{HTML}{000000}
+\definecolor{stateorange}{HTML}{000000}
+\renewcommand{\emph}[1]{\textbf{#1}}
+\fi
 
 \setcounter{section}{1}
 
@@ -25,27 +40,27 @@ Go through the chapter summary.
 Be comfortable defining a search problem.
 \subsection{Example Problems}\label{subsec:3.2}
 \subsection{Search Algorithms \& Uniform Search Strategies}\label{subsec:3.3-4}
-\begin{table}[H]
-    \centering
-    \begin{threeparttable}
-		\caption{Uniformed Search Algorithms}
-		\label{tab:uniformed-search-algorithms}
-		\begin{tabular}{|l*{6}{P{0.04\textwidth}}|}
-			\hline
-			Criterion & Breadth-First & Uniform Cost & Depth-First & Depth-Limited & Iterative Deepening & Bidirectional (if applicable)\\
-			\hline
-			Complete? & Yes & Yes & No & No & Yes & Yes\\
-			\hline
-			Optimal cost? & Yes & Yes & No & No & Yes & Yes\\
-			\hline
-			Time & $O(b^{d})$ & $O(b^{1+C\lfloor C*/\epsilon\rfloor})$
-		\end{tabular}
-		\begin{tablenotes}
-			\small
-			\item
-		\end{tablenotes}
-	\end{threeparttable}
-\end{table}
+%\begin{table}[H]
+%    \centering
+%    \begin{threeparttable}
+%		\caption{Uniformed Search Algorithms}
+%		\label{tab:uniformed-search-algorithms}
+%		\begin{tabular}{|l*{6}{P{0.04\textwidth}}|}
+%			\hline
+%			Criterion & Breadth-First & Uniform Cost & Depth-First & Depth-Limited & Iterative Deepening & Bidirectional (if applicable)\\
+%			\hline
+%			Complete? & Yes & Yes & No & No & Yes & Yes\\
+%			\hline
+%			Optimal cost? & Yes & Yes & No & No & Yes & Yes\\
+%			\hline
+%			Time & $O(b^{d})$ & $O(b^{1+C\lfloor C*/\epsilon\rfloor})$
+%		\end{tabular}
+%		\begin{tablenotes}
+%			\small
+%			\item
+%		\end{tablenotes}
+%	\end{threeparttable}
+%\end{table}
 
 Ignore sections 3.4.4 and 3.4.5 for the exam.
 \setcounter{subsection}{4}%
@@ -55,6 +70,47 @@ $h(n)=h(\mbox{State n})=\mbox{relevant information about State } n$
 
 You may be asked to solve a search problem by hand.
 \subsection{Heuristic Functions}\label{subsec:3.6}
+Straight-line heuristics is \emph{admissible}: it never overestimates the cost.
+An \emph{admissible heuristics} is guaranteed to give you the optimal solution.
+Every \emph{consistent} heuristics is \emph{admissible}, but not the other way around.
+A dominating heuristic is a heuristic that estimates closer to the actual cost than another heuristic.
+
+\subsection{A*}\label{subsec:a*}
+The evaluation function for A* is $f(n) = g(\mbox{State}_{n}) + h(\mbox{State}_{n})$ where $g(n)$ is the path cost from the initial node to node $n$,
+and $h(n)$ is the \emph{estimated cost} of the best path that continues from node $n$ to a goal node.
+A node $n$ with minimum (or maximum if necessary) $f(n)$ should be chosen for expansion.
+\begin{algorithm}[H]
+	\caption{Best-First Search: A* Pseudocode}\label{alg:a*}
+	\begin{algorithmic}[1]
+		\Function{Best-First-Search}{$problem, f$} \Returns a solution node or \textit{failure}
+			\State $\textcolor{nodeblue}{node}\gets\Call{Node}{State=problem.Initial}$
+			\State $\textcolor{frontiergreen}{frontier}\gets$ a priority queue ordered by $f$, with $\textcolor{nodeblue}{node}$ as an element
+			\State $\textcolor{reachedpurple}{reached}\gets$ a lookup table, with one entry with key $problem.\Call{Initial}{}$ and value $\textcolor{nodeblue}{node}$
+			\While{\Not $\Call{Is-Empty}{\textcolor{frontiergreen}{frontier}}$}
+				\State $\textcolor{nodeblue}{node}\gets\Call{Pop}{\textcolor{frontiergreen}{frontier}}$
+				\If{$problem.\Call{Is-Goal}{\textcolor{nodeblue}{node}.State}$}
+					\Return $\textcolor{nodeblue}{node}$
+				\EndIf
+				\ForAll{$\textcolor{childred}{child}$ \In $\Call{Expand}{problem,\ \textcolor{nodeblue}{node}}$}
+					\State $\textcolor{stateorange}{s}\gets \textcolor{childred}{child}.\Call{State}{}$
+					\If{$\textcolor{stateorange}{s}$ \Not \In $\textcolor{reachedpurple}{reached}$ or $child.\Call{Path-Cost}{} < \textcolor{reachedpurple}{reached}[\textcolor{stateorange}{s}].\Call{Path-Cost}{}$}
+						\State $\textcolor{reachedpurple}{reached}[\textcolor{stateorange}{s}]\gets child$
+						\State $\textcolor{childred}{child}$ to $\textcolor{frontiergreen}{frontier}$
+					\EndIf
+				\EndFor
+			\EndWhile
+			\State \Return $failure$
+		\EndFunction
+		\Function{Expand}{$problem, node$} yields nodes
+			\State $s\gets node.\Call{State}{}$
+			\ForAll{$action$ \In $problem.\Call{Actions}{s}$}
+				\State $s'\gets problem.\Call{Result}{s, action}$
+				\State \makebox{$cost\gets node.\Call{Path-Cost}{} + problem.\Call{Action{-}Cost}{s, action, s'}$}
+				\State yield $\Call{Node}{State=s', Parent=node, Action=action, Path-Cost=cost}$
+			\EndFor
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
 \subsection{Summary}\label{subsec:3-summary}
 Go through the chapter summary. FOCUS ON A* algorithm
 

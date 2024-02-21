@@ -14,6 +14,7 @@
 }
 
 \DeclareStringOption{exam}
+\DeclareBoolOption[true]{color}
 
 \ProcessKeyvalOptions*
 
@@ -24,8 +25,10 @@
 \RequirePackage{multirow}
 \RequirePackage[fontsize=9pt]{fontsize}
 
+\let\ifcolor\ifcsexam@color
+
 \newlength{\verticalmargin}
-\setlength{\verticalmargin}{20sp}
+\setlength{\verticalmargin}{1em}
 \newlength{\horizontalmargin}
 \setlength{\horizontalmargin}{1em}
 \geometry{top=\verticalmargin, bottom=\verticalmargin, left=\horizontalmargin, right=\horizontalmargin}

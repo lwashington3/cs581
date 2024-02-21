@@ -1,4 +1,5 @@
 auxil/
+*.fuse_hidden*
 
 ### TeX template
 ## Core latex/pdflatex auxiliary files:
