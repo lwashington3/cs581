@@ -24,8 +24,11 @@
 \RequirePackage{multirow}
 \RequirePackage[fontsize=9pt]{fontsize}
 
-
-\geometry{margin=20sp}
+\newlength{\verticalmargin}
+\setlength{\verticalmargin}{20sp}
+\newlength{\horizontalmargin}
+\setlength{\horizontalmargin}{1em}
+\geometry{top=\verticalmargin, bottom=\verticalmargin, left=\horizontalmargin, right=\horizontalmargin}
 
 \RequirePackage{enumitem}
 \newlist{problems}{enumerate}{2}

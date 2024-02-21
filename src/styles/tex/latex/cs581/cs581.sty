@@ -30,6 +30,8 @@
 
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
 \newcommand{\definition}[2]{\textbf{\textcolor{red}{#1}} -- #2}
+\let\oldemph\emph
+\renewcommand{\emph}[1]{\textcolor{red}{#1}}
 
 \usetikzlibrary{scopes,trees,positioning,graphs,arrows.meta,shapes,shapes.geometric,decorations.markings}
 \newcommand{\newtikzset}{

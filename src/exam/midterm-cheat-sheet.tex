@@ -25,9 +25,34 @@ Go through the chapter summary.
 Be comfortable defining a search problem.
 \subsection{Example Problems}\label{subsec:3.2}
 \subsection{Search Algorithms \& Uniform Search Strategies}\label{subsec:3.3-4}
+\begin{table}[H]
+    \centering
+    \begin{threeparttable}
+		\caption{Uniformed Search Algorithms}
+		\label{tab:uniformed-search-algorithms}
+		\begin{tabular}{|l*{6}{P{0.04\textwidth}}|}
+			\hline
+			Criterion & Breadth-First & Uniform Cost & Depth-First & Depth-Limited & Iterative Deepening & Bidirectional (if applicable)\\
+			\hline
+			Complete? & Yes & Yes & No & No & Yes & Yes\\
+			\hline
+			Optimal cost? & Yes & Yes & No & No & Yes & Yes\\
+			\hline
+			Time & $O(b^{d})$ & $O(b^{1+C\lfloor C*/\epsilon\rfloor})$
+		\end{tabular}
+		\begin{tablenotes}
+			\small
+			\item
+		\end{tablenotes}
+	\end{threeparttable}
+\end{table}
+
 Ignore sections 3.4.4 and 3.4.5 for the exam.
 \setcounter{subsection}{4}%
 \subsection{Informed (Heuristic) Search Strategies}\label{subsec:3.5}
+Informed search relies on \emph{domain-specific knowledge / hints} that help locate the goal state.
+$h(n)=h(\mbox{State n})=\mbox{relevant information about State } n$
+
 You may be asked to solve a search problem by hand.
 \subsection{Heuristic Functions}\label{subsec:3.6}
 \subsection{Summary}\label{subsec:3-summary}
@@ -35,7 +60,15 @@ Go through the chapter summary. FOCUS ON A* algorithm
 
 \section{Search in Complex Environments}\label{sec:search-in-complex-environments}
 \subsection{Local Search and Optimization Problems}\label{subsec:local-search-and-optimization-problems}
+Local search doesn't care about the path to the goal, just getting to the goal.
+They're useful for pure optimization problems (finding the best state according to an objective function.)
+Generally use a single current state and generally move to neighbors of that state.
+Two key advantages are: little memory usage (usually a constant amount) and can find reasonable solutions in large of infinite (continuous) states spaces.
+The performance can be measured using \emph{completeness} (guaranteed to find a solution when there is one and report when there isn't), \emph{cost-optimality} (does it find a solution with the lowest path cost of all solutions), or time or space complexity.
+%
 \subsubsection{Hill-climbing search}\label{subsubsec:4.1.1}
+The most primitive informed search approach; it is a naive greedy algorithm and the objective function is the value of the next state.
+The agent can get stuck on peaks (local maxima), ridges (sequences of peaks), and plateaus (areas where the evaluation function has the same value).
 \begin{algorithm}[H]
 	\caption{Hill-climbing search}\label{alg:hill-climbing}
 	\begin{algorithmic}[1]
@@ -53,6 +86,8 @@ Go through the chapter summary. FOCUS ON A* algorithm
 \end{algorithm}
 
 \subsubsection{Simulated Annealing}\label{subsubsec:4.1.2}
+Accepts a move if it improves the objective value, and accepts some ``bad'' moves given some probability depending on the current objective value.
+Converges to a global optimum; in practice, it can give excellent results.
 \begin{algorithm}[H]
 	\caption{Simulated Annealing}\label{alg:simulated-annealing}
 	\begin{algorithmic}[1]
@@ -103,9 +138,9 @@ Go through the chapter summary. FOCUS ON A* algorithm
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
-$\dots$and everything related to Evolutionary algorithms that I covered
+
+$\dots$and everything related to Evolutionary algorithms that I covered in class (especially: EVERYTHING about GENETIC ALGORITHM)\\
 IGNORE TABU SEARCH
-in class (especially: EVERYTHING about GENETIC ALGORITHM)
 
 
 \section{Adversarial Search and Games}\label{sec:adversarial-search-and-games}
@@ -125,8 +160,6 @@ Ignore sections 6.2.4 and 6.2.5.
 Ignore sections 6.3.3 and 6.3.4.
 \subsection{Summary}\label{subsec:6-summary}
 Go through the chapter summary.
-
-\section{Evolutionary Algorithms}\label{sec:evolutionary-algorithms}
 
 \section{Ant Colony Optimization}\label{sec:ant-colony-optimization}
 
