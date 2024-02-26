@@ -9,6 +9,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/styles/tex/latex/cs581homework" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/homework/written/written02/images" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/styles/tex/latex/cs581exam" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/homework/programming/programming01/images" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/auxil" />
       <excludeFolder url="file://$MODULE_DIR$/out" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />

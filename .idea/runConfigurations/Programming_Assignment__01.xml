@@ -1,16 +1,16 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Written Assignment #01" type="LATEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory" folderName="Written Assignments">
+  <configuration default="false" name="Programming Assignment #01" type="LATEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory" folderName="Written Assignments">
     <texify>
       <compiler>PDFLATEX</compiler>
       <compiler-path />
       <sumatra-path />
-      <pdf-viewer>EVINCE</pdf-viewer>
-      <viewer-command />
+      <pdf-viewer>NONE</pdf-viewer>
+      <viewer-command>pdfopener</viewer-command>
       <compiler-arguments />
       <envs />
-      <main-file>$PROJECT_DIR$/src/homework/written/written01/written01.tex</main-file>
-      <output-path>$PROJECT_DIR$/out/homework</output-path>
-      <auxil-path>$PROJECT_DIR$/auxil/homework</auxil-path>
+      <main-file>$PROJECT_DIR$/src/homework/programming/programming01/Washington_Len_CS581_Programming01.tex</main-file>
+      <output-path>$PROJECT_DIR$/out/programming</output-path>
+      <auxil-path>$PROJECT_DIR$/auxil/programming</auxil-path>
       <compile-twice>false</compile-twice>
       <output-format>PDF</output-format>
       <latex-distribution>MIKTEX</latex-distribution>

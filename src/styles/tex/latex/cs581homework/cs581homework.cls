@@ -49,6 +49,28 @@
 	\BODY
 }
 
+\NewEnviron{inputdata}{
+		{\Large\textbf{Input data file:}}
+	\BODY
+}
+
+\NewEnviron{problemdescription}{
+		{\Large\textbf{Problem description:}}
+	\BODY
+}
+
+\newcommand{\deliverables}{%
+	Your submission should include:
+	\begin{itemize}
+		\item Python code file(s).
+		Your py file should be named: \begin{center} cs581\_P0\cshomework@assignment\_AXXXXXXXX.py \end{center}
+		where AXXXXXXXX is your IIT A number (\textcolor{red}{this is REQUIRED!}).
+		If your solution uses multiple files, make sure that the main (the one what will be run to solve the problem) is named that way and others include your IIT A number in their names as well.
+		\item this document with your results and conclusions.
+		You should rename is to: \begin{center} LastName\_FirstName\_CS581\_Programming0\cshomework@assignment.doc or pdf \end{center}
+	\end{itemize}
+}
+
 \RequirePackage{enumitem}
 \newlist{problems}{enumerate}{2}
 \setlist[problems, 1]{
