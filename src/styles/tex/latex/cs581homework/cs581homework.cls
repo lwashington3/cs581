@@ -1,4 +1,4 @@
-%! Class = cs581notes
+%! Class = cs581homework
 %! Author = Len Washington III
 %! Date = 1/8/24
 
@@ -14,30 +14,39 @@
 }
 
 \DeclareStringOption{assignment}
+\DeclareStringOption[Written]{type}
 \DeclareStringOption{duedate}
 \DeclareStringOption{points}
+\DeclareBoolOption[true]{template}
+
 
 \ProcessKeyvalOptions*
 
-\RequirePackage[title={CS 581 Spring 2024 Written Assignment \#0\cshomework@assignment}]{cs581}
+\RequirePackage[title={CS 581 Spring 2024 \cshomework@type\ Assignment \#0\cshomework@assignment}]{cs581}
 \RequirePackage{enumitem}
 \RequirePackage{bookmark}
 \RequirePackage{alphalph}
 \RequirePackage{multirow}
 
+\let\iftemplate\ifcshomework@template
+
 \renewcommand{\maketitle}{
+	\textcolor{red}{\cs@author}\\
+
 	{\LARGE\textbf{\cs@title}}\\
 	{\Large Due: \textbf{\cshomework@duedate}\\Points: \textbf{\cshomework@points}}\\
 
 	{\Large\textbf{Instructions:}}
 	\begin{enumerate}
-	    \item Use this document template to report your answers.
+		\item Use this document template to report your answers.
 		Name the complete document as follows:
-		\[ \mbox{LastName\_FirstName\_CS581\_WA0\cshomework@assignment.doc or pdf} \]
+		\expandafter\ifstrequal\expandafter{\cshomework@type}{Written}%
+		{\[ \mbox{LastName\_FirstName\_CS581\_Written0\cshomework@assignment.doc or pdf} \]}%
+		{\[ \mbox{LastName\_FirstName\_CS581\_Programming0\cshomework@assignment.zip} \]}
 
 		\textcolor{red}{\textbf{ONLY PDF or MS Word file formats will be accepted.}}
 		\item Submit the final document to Blackboard Assignments section before the due date.
-		No late submissions will be accepted.
+		\textbf{No late submissions will be accepted.}
 	\end{enumerate}
 }
 %\renewcommand{\maketitle}{\begin{center}\Large \textbf{\cs@date~Notes}\end{center}}
@@ -45,7 +54,7 @@
 \setlength{\parindent}{0pt}
 
 \NewEnviron{objectives}{
-	{\Large\textbf{Objectives:}}
+		{\Large\textbf{Objectives:}}
 	\BODY
 }
 
@@ -86,18 +95,38 @@
 
 \newcommand*\makeAlph[1]{\alphalph{\the\numexpr\value{#1}+1}}
 
-\newcounter{problems}
-\setcounter{problems}{0}
-%\newcommand{\problem}[2][prb:\cshomework@assignment.\number\value{problems}]{%
-%	\pdfbookmark[2] % Level
-%	{Problem \the\numexpr\value{problems}+1\ifx#1\empty\else#1 pts\fi:} % Text
-%	{#2}% Name/Label
-%}
+\newcounter{problem}
+\newcounter{subproblem}[problem]
 
-\newcommand{\problem}[2][]{\section*{Problem #2 [#1 pts]:}\label{prb:#2}}
+\newcommand{\problem}[1]{\section*{Problem\stepcounter{problem} \arabic{problem} [#1 pts]:}\label{prb:\arabic{problem}}}
 
-\newcommand{\subproblem}{%
-	\pdfbookmark[4]% Level
-	{Problem \the\numexpr\value{problemsi}\makeAlph{problemsii}}% Text
-	{prb:\the\numexpr\value{chapter}.\the\numexpr\value{section}.\number\value{problemsi}\makeAlph{problemsii}}% Name/Label
-	\item\label{prb:\number\value{problemsi}\alph{problemsii}}}
+\newcommand{\subproblem}[1]{\subsection*{\stepcounter{subproblem}\Alph{subproblem}) [#1 pts]:}\label{subprb:\arabic{problem}.\arabic{subproblem}}}
+
+%\newcommand{\subproblem}{%
+%	\pdfbookmark[4]% Level
+%	{Problem \the\numexpr\value{problemsi}\makeAlph{problemsii}}% Text
+%	{prb:\the\numexpr\value{chapter}.\the\numexpr\value{section}.\number\value{problemsi}\makeAlph{problemsii}}% Name/Label
+%	\item\label{prb:\number\value{problemsi}\alph{problemsii}}}
+
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\definecolor{tablegray}{HTML}{e7e7e7}
+
+\definecolor{viterbigray}{HTML}{e6e6e6}
+\definecolor{viterbipurple}{HTML}{834cad}
+
+\NewEnviron{answerbox}{%
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{|p{\textwidth}|}
+			\hline
+			\textbf{Your answer [show all your work]:}\\
+			\hline
+			\iftemplate
+			\vspace*{1in}~\\
+			\else
+			\BODY
+			\fi
+			\hline
+		\end{tabular}
+	\end{table}}
