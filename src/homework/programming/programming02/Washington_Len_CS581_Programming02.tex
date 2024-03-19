@@ -1,0 +1,174 @@
+%! Author = Len Washington III
+%! Date = 3/18/24
+
+% Preamble
+\documentclass[
+	type={Programming},
+	assignment={2},
+	points={100},
+	duedate={Sunday, April 7, 2024, 11:59 CST},
+	template=true,
+]{cs581homework}
+
+% Packages
+\usepackage{soul}
+\newcommand{\results}[2]{
+\begin{table}[H]
+	\centering
+	\label{tab:results-#1}
+	\begin{tabular}{|c|*{5}{P{0.17\textwidth}|}}
+		\hline
+		\multicolumn{6}{|l|}{\textbf{TABLE #1: Run #2 Results comparison}}\\
+		\hline
+		 & \multicolumn{5}{c|}{TRAIN\%} \\
+		\hline
+		$\epsilon$ & 10 & 20 & 30 & 40 & 50\\
+		\hline
+		0.1 & & & & & \\
+		\hline
+		0.2 & & & & & \\
+		\hline
+		0.3 & & & & & \\
+		\hline
+		0.4 & & & & & \\
+		\hline
+		0.5 & & & & & \\
+		\hline
+		0.6 & & & & & \\
+		\hline
+		0.7 & & & & & \\
+		\hline
+		0.8 & & & & & \\
+		\hline
+		0.9 & & & & & \\
+		\hline
+	\end{tabular}
+\end{table}
+
+}
+
+% Document
+\begin{document}
+
+\maketitle
+
+\begin{objectives}
+	\begin{enumerate}[label=\arabic*.]
+		\item (100 points) Implement and evaluate a $K$-Armed Bandit algorithm.\\
+	\end{enumerate}
+\end{objectives}
+
+\begin{inputdata}
+	Your input file will be a CSV (comma-separated values) file (see Programming Assignment \#02 folder in Blackboard - input.csv).\\
+
+	You \underline{\textbf{CANNOT} modify nor rename} input data files.\\
+
+	\textbf{First row of that file is always going to contain column labels.}\\
+
+	Each column (starting at row 2) in that input file will represent time series data for some system (sample file data represents traces of Galvin Library Wifi channel occupancy -- there are 11 channels/columns with numerical values representing signal strength in dBm).\\
+\end{inputdata}
+
+\deliverables
+
+\begin{problemdescription}
+	In probability theory and machine learning, the multi-armed bandit problem (sometimes called the $K$- or $N$-armed bandit problem) is a problem in which a decision maker iteratively selects one of multiple fixed choices (i.e.\ arms or actions) when the properties of each choice are only partially known at the time of allocation, and may become better understood as time passes.
+	A fundamental aspect of bandit problems is that choosing an arm does not affect the properties of the arm or other arms [Wikipedia].\\
+
+	Your task is to implement the \textbf{epsilon-greedy variant of the $\mathbf{K}$-Armed Bandit} problem and use it to learn the probabilities of success using provided input (data)\\
+
+	Your program should:
+	\begin{itemize}
+		\item Accept four (4) command line arguments corresponding to two states / state capitals (initial and goal states) so your code could be executed with
+		\begin{center}
+			python cs581\_P02\_AXXXXXXXX.py FILENAME EPSILON TRAIN\% THR
+		\end{center}
+		where:
+		\begin{itemize}
+			\item cs581\_P02\_AXXXXXXXX.py is your python code file name,
+			\item FILENAME is the input CSV file name,
+			\item EPSILON is the $\epsilon$ parameter in epsilon-greedy approach
+			\begin{itemize}
+				\item it is a real number from the interval [0; 1],
+				\item if illegal value provided, set to 0.3.
+			\end{itemize}
+			\item TRAIN\% is representing the percentage of data (first TRAIN\% of rows in the input csv file) that will be used for training purposes:
+			\begin{itemize}
+				\item it is an integer number from the interval [0; 50],
+				\item if illegal value provided, set to 50.
+			\end{itemize}
+		\end{itemize}
+		\item THR is representing a “success threshold” (time series data below threshold - success, otherwise failure $|$
+		In the provided file success will mean “no occupancy = if we choose to use unoccupied channel, we will not cause any interference; failure: we will cause interference):
+		\begin{itemize}
+			\item for WiFi data you can use -90, but DON’T HARDCODE it.
+		\end{itemize}
+		Example:
+
+		\begin{center}
+			python cs581\_P02\_A________.py INPUT.CSV 0.3 30 -90
+		\end{center}
+
+		If the number of arguments provided is NOT four your program should display the following error message:\\
+
+		\hspace{15pt} ERROR: Not enough or too many input arguments.\\
+
+		and exit.
+		\item Load and process input data file provided (\ul{assume that input data file is always in the same folder as your code} - \emph{this is REQUIRED}!
+		DO NOT HARDCODE YOUR LOCAL FILE PATH).
+		Make sure your program is \textbf{\ul{flexible enough to accommodate different input data set}} (with different labels, number of columns, and number of rows, but structurally the same).
+		\emph{Your submission will be tested using a different file!}
+		\item Report results on screen in the following format:\\
+
+		Last Name, First Name, AXXXXXXXX solution:\\
+		epsilon: eeee\\
+		Training data percentage: pppp \%\\
+		Success threshold: ssss\\
+
+		Success probabilities:\\
+		P($\mbox{LABEL}_{1}$) = $\mbox{PL}_{1}$\\
+		P($\mbox{LABEL}_{2}$) = $\mbox{PL}_{2}$\\
+		P($\mbox{LABEL}_{3}$) = $\mbox{PL}_{3}$\\
+		$\dots$\\
+		P($\mbox{LABEL}_{N-1}$) = $\mbox{PL}_{N-1}$\\
+		P($\mbox{LABEL}_{N}$) = $\mbox{PL}_{N}$\\
+
+		Bandit [$\mbox{LABEL}_{X}$] was chosen to be played for the rest of data set.\\
+		$\mbox{LABEL}_{X}$ Success percentage: xxxx
+
+		where:
+
+		\begin{itemize}
+			\item AXXXXXXXX is your IIT A number,
+			\item eeee is the $\epsilon$ parameter,
+			\item pppp is training data percentage,
+			\item ssss is the success threshold,
+			\item $\mbox{LABEL}_{1}$, $\mbox{LABEL}_{2}$, $\mbox{LABEL}_{3}$, $\dots$, $\mbox{LABEL}_{N-1}$, $\mbox{LABEL}_{N}$ are input file column labels / bandit names
+			\item $\mbox{PL}_{1}$, $\mbox{PL}_{2}$, $\mbox{PL}_{3}$, $\dots$, $\mbox{PL}_{N-1}$, $\mbox{PL}_{N}$ are probability of success estimates for each bandit obtained during the training phase
+			\item $\mbox{LABEL}_{X}$ is the bandit (input file column) name that was chosen to be “played” for the rest of the data (remaining 100\% - TRAIN\% rows)
+			\item xxxx is the success percentage (how often did we succeed / won / did not interfere) for the chosen $\mbox{LABEL}_{X}$ bandit.
+		\end{itemize}
+	\end{itemize}
+\end{problemdescription}
+
+\textbf{Results and Conclusions}
+Run your algorithm THREE (3) (three runs for each parameter pair to account for randomness) for the $\epsilon$ and TRAIN\% parameter pairings (keep the success threshold fixed) shown in tables below and report your findings (final success rates).
+
+\results{A}{1}
+\results{B}{2}
+\results{3}{3}
+
+Figures: show
+\begin{center}
+	cumulative bandit success rate = f(time/row)
+\end{center}
+plots (NOT training rows $|$ three traces/plots per figure $|$ one figure per run) for the following $\epsilon$ and TRAIN\% parameter pairings: 0.3/50, 0.5/50, 0.8/50.
+Feel free to add additional plots and comments if you discovered anything interesting.
+
+What are your conclusions?
+What have you observed?
+Which algorithm/parameter set performed better?
+Was the optimal path found?
+Write a summary below.
+
+
+\end{document}
