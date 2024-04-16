@@ -27,6 +27,14 @@
 
 \let\ifcolor\ifcsexam@color
 
+\ifcolor\else
+\renewcommand{\emph}[1]{\textbf{#1}}
+\fi
+
+\renewcommand{\definition}[3][red]{\textbf{\textcolor{\ifcolor%
+#1\else%
+black\fi}{#2}} -- #3}
+
 \newlength{\verticalmargin}
 \setlength{\verticalmargin}{1em}
 \newlength{\horizontalmargin}
@@ -49,6 +57,14 @@
 }
 
 \linespread{0.85}
+
+\newcommand{\defineexamcolor}[2]{%
+	\ifcolor
+	\definecolor{#1}{HTML}{#2}
+	\else
+	\definecolor{#1}{HTML}{000000}
+	\fi
+}
 
 \RequirePackage{titlesec}
 \titleformat{\section}[runin]
