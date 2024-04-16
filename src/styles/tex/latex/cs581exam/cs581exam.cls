@@ -48,7 +48,7 @@
 	leftmargin=30pt,
 }
 
-\linespread{0.9}
+\linespread{0.85}
 
 \RequirePackage{titlesec}
 \titleformat{\section}[runin]

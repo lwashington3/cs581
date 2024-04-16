@@ -53,20 +53,17 @@
 
 \setlength{\parindent}{0pt}
 
-\NewEnviron{objectives}{
+\newenvironment{objectives}{
 		{\Large\textbf{Objectives:}}
-	\BODY
-}
+		}{}
 
-\NewEnviron{inputdata}{
+\newenvironment{inputdata}{
 		{\Large\textbf{Input data file:}}
-	\BODY
-}
+		}{}
 
-\NewEnviron{problemdescription}{
+\newenvironment{problemdescription}{
 		{\Large\textbf{Problem description:}}
-	\BODY
-}
+		}{}
 
 \newcommand{\deliverables}{%
 	Your submission should include:
@@ -115,7 +112,7 @@
 \definecolor{viterbigray}{HTML}{e6e6e6}
 \definecolor{viterbipurple}{HTML}{834cad}
 
-\NewEnviron{answerbox}{%
+\newenvironment{answerbox}{%
 	\begin{table}[H]
 		\centering
 		\begin{tabular}{|p{\textwidth}|}
@@ -123,10 +120,11 @@
 			\textbf{Your answer [show all your work]:}\\
 			\hline
 			\iftemplate
-			\vspace*{1in}~\\
-			\else
-			\BODY
-			\fi
+			\vspace*{1in}
+			\fi\\
 			\hline
 		\end{tabular}
-	\end{table}}
+	\end{table}
+}{
+
+}
